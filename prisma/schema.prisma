@@ -58,9 +58,21 @@ model TestTable {
   payload String
 }
 
+enum ACTION {
+  CREATE
+  UPDATE
+  DELETE
+}
+
 model AuditLog {
-  id   Int    @unique @default(autoincrement())
-  uuid String @default(uuid())
+  id         Int      @unique @default(autoincrement())
+  uuid       String   @default(uuid())
+  actionType ACTION
+  tableName  String
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model MainSchedule {
@@ -137,14 +149,15 @@ model Teacher {
 }
 
 model User {
-  id        Int      @unique @default(autoincrement())
+  id        Int        @unique @default(autoincrement())
   uuid      String
   username  String
   password  String
   role      String
-  studentId Int?     @unique
-  student   Student? @relation(fields: [studentId], references: [id])
-  teacherId Int?     @unique
-  teacher   Teacher? @relation(fields: [teacherId], references: [id])
-  isAdmin   Boolean? @default(false)
+  studentId Int?       @unique
+  student   Student?   @relation(fields: [studentId], references: [id])
+  teacherId Int?       @unique
+  teacher   Teacher?   @relation(fields: [teacherId], references: [id])
+  isAdmin   Boolean?   @default(false)
+  AuditLog  AuditLog[]
 }
