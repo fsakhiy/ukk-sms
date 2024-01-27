@@ -7,6 +7,8 @@ export default function LoginPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const adminEmail = process.env.ADMIN_EMAIL
+
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
     }
@@ -58,6 +60,9 @@ export default function LoginPage() {
                 >
                     Log In
                 </button>
+            </div>
+            <div>
+                forgot your password? <a href={`mailto:${adminEmail}`} className={`font-bold underline text-blue-700`}>contact the admin</a>
             </div>
         </div>
 
