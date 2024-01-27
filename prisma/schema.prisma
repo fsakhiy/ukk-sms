@@ -10,47 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Schedule {
-//   id      Int       @unique @default(autoincrement())
-//   uuid    String    @default(uuid())
-//   name    String
-//   classes Classes[]
-// }
-//
-// model Subject {
-//   id      Int       @unique @default(autoincrement())
-//   uuid    String    @default(uuid())
-//   name    String
-//   Classes Classes[]
-// }
-//
-// model Classes {
-//   id         Int      @unique @default(autoincrement())
-//   uuid       String   @default(uuid())
-//   scheduleId Int
-//   schedule   Schedule @relation(fields: [scheduleId], references: [id])
-//   subjectId  Int
-//   subject    Subject  @relation(fields: [subjectId], references: [id])
-//   start_time DateTime
-//   end_time   DateTime
-//   teacherId  Int
-//   teacher    User     @relation(fields: [teacherId], references: [id])
-// }
-//
-// model User {
-//   id      Int       @unique @default(autoincrement())
-//   uuid    String    @default(uuid())
-//   roleId  Int
-//   role    Role      @relation(fields: [roleId], references: [id])
-//   Classes Classes[]
-// }
-//
-// model Role {
-//   id   Int    @unique @default(autoincrement())
-//   uuid String @default(uuid())
-//   User User[]
-// }
-
 model TestTable {
   id      Int    @unique @default(autoincrement())
   uuid    String @default(uuid())
@@ -91,12 +50,15 @@ model MainSchedule {
 }
 
 model Subject {
-  id        Int       @unique @default(autoincrement())
-  uuid      String    @default(uuid())
-  name      String
+  id   Int    @unique @default(autoincrement())
+  uuid String @default(uuid())
+
+  name String
+
   teacherId Int
-  teacher   Teacher   @relation(fields: [teacherId], references: [id])
-  class     Classes[]
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+
+  class Classes[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -126,10 +88,10 @@ model Classroom {
   id   Int    @unique @default(autoincrement())
   uuid String @default(uuid())
 
+  Students Student[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  Students Student[]
 
   isDeleted Boolean @default(false)
 }
@@ -168,15 +130,20 @@ model Teacher {
 }
 
 model User {
-  id        Int        @unique @default(autoincrement())
+  id        Int      @unique @default(autoincrement())
   uuid      String
   username  String
   password  String
   role      String
-  studentId Int?       @unique
-  student   Student?   @relation(fields: [studentId], references: [id])
-  teacherId Int?       @unique
-  teacher   Teacher?   @relation(fields: [teacherId], references: [id])
-  isAdmin   Boolean?   @default(false)
-  AuditLog  AuditLog[]
+  studentId Int?     @unique
+  student   Student? @relation(fields: [studentId], references: [id])
+
+  teacherId Int?     @unique
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isAdmin  Boolean?   @default(false)
+  AuditLog AuditLog[]
 }
