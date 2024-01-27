@@ -65,14 +65,15 @@ enum ACTION {
 }
 
 model AuditLog {
-  id         Int      @unique @default(autoincrement())
-  uuid       String   @default(uuid())
+  id         Int    @unique @default(autoincrement())
+  uuid       String @default(uuid())
   actionType ACTION
   tableName  String
   userId     Int
-  user       User     @relation(fields: [userId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  user       User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model MainSchedule {
@@ -82,9 +83,11 @@ model MainSchedule {
   startPeriod DateTime
   endPeriod   DateTime
   class       Classes[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  isDeleted   Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean @default(false)
 }
 
 model Subject {
@@ -94,8 +97,11 @@ model Subject {
   teacherId Int
   teacher   Teacher   @relation(fields: [teacherId], references: [id])
   class     Classes[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean @default(false)
 }
 
 model Classes {
@@ -109,12 +115,17 @@ model Classes {
 
   Subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   isDeleted Boolean @default(false)
 }
 
 model Classroom {
-  id        Int      @unique @default(autoincrement())
-  uuid      String   @default(uuid())
+  id   Int    @unique @default(autoincrement())
+  uuid String @default(uuid())
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -135,6 +146,9 @@ model Student {
   classroomId Int
   classroom   Classroom @relation(fields: [classroomId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   isDeleted Boolean @default(false)
 }
 
@@ -146,6 +160,11 @@ model Teacher {
   nationalTeacherNumber String?
   user                  User?
   Subject               Subject[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean @default(false)
 }
 
 model User {
