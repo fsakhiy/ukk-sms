@@ -58,6 +58,11 @@ model TestTable {
   payload String
 }
 
+model AuditLog {
+  id   Int    @unique @default(autoincrement())
+  uuid String @default(uuid())
+}
+
 model MainSchedule {
   id          Int       @unique @default(autoincrement())
   uuid        String    @default(uuid())
@@ -65,28 +70,20 @@ model MainSchedule {
   startPeriod DateTime
   endPeriod   DateTime
   class       Classes[]
-  createdById Int
-  createdBy   User      @relation("ScheduleCreator", fields: [createdById], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   isDeleted   Boolean   @default(false)
-  deletedById Int
-  deletedBy   User      @relation("ScheduleDeletor", fields: [deletedById], references: [id])
 }
 
 model Subject {
-  id          Int       @unique @default(autoincrement())
-  uuid        String    @default(uuid())
-  name        String
-  teacherId   Int
-  teacher     Teacher   @relation(fields: [teacherId], references: [id])
-  class       Classes[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  createdById Int
-  createdBy   User      @relation("SubjectCreator", fields: [createdById], references: [id])
-  deletedById Int
-  deletedBy   User      @relation("SubjectDeletor", fields: [deletedById], references: [id])
+  id        Int       @unique @default(autoincrement())
+  uuid      String    @default(uuid())
+  name      String
+  teacherId Int
+  teacher   Teacher   @relation(fields: [teacherId], references: [id])
+  class     Classes[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Classes {
@@ -111,12 +108,7 @@ model Classroom {
 
   Students Student[]
 
-  createdById Int
-  createdBy   User @relation("ClassroomCreator", fields: [createdById], references: [id])
-
-  isDeleted   Boolean @default(false)
-  deletedById Int
-  deletedBy   User    @relation("ClassroomDeletor", fields: [deletedById], references: [id])
+  isDeleted Boolean @default(false)
 }
 
 model Student {
@@ -131,12 +123,7 @@ model Student {
   classroomId Int
   classroom   Classroom @relation(fields: [classroomId], references: [id])
 
-  createdById Int
-  createdBy   User @relation("StudentCreator", fields: [createdById], references: [id])
-
-  isDeleted   Boolean @default(false)
-  deletedById Int
-  deletedBy   User    @relation("StudentDeletor", fields: [deletedById], references: [id])
+  isDeleted Boolean @default(false)
 }
 
 model Teacher {
@@ -150,22 +137,14 @@ model Teacher {
 }
 
 model User {
-  id               Int            @unique @default(autoincrement())
-  uuid             String
-  username         String
-  password         String         @default("12345")
-  role             String
-  studentId        Int?           @unique
-  student          Student?       @relation(fields: [studentId], references: [id])
-  teacherId        Int?           @unique
-  teacher          Teacher?       @relation(fields: [teacherId], references: [id])
-  isAdmin          Boolean?       @default(false)
-  scheduleCreator  MainSchedule[] @relation("ScheduleCreator")
-  scheduleDeletor  MainSchedule[] @relation("ScheduleDeletor")
-  subjectCreator   Subject[]      @relation("SubjectCreator")
-  subjectDeletor   Subject[]      @relation("SubjectDeletor")
-  classroomCreator Classroom[]    @relation("ClassroomCreator")
-  classroomDeletor Classroom[]    @relation("ClassroomDeletor")
-  studentCreator   Student[]      @relation("StudentCreator")
-  studentDeletor   Student[]      @relation("StudentDeletor")
+  id        Int      @unique @default(autoincrement())
+  uuid      String
+  username  String
+  password  String
+  role      String
+  studentId Int?     @unique
+  student   Student? @relation(fields: [studentId], references: [id])
+  teacherId Int?     @unique
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  isAdmin   Boolean? @default(false)
 }
