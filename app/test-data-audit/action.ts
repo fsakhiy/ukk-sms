@@ -1,26 +1,17 @@
 "use server"
 import prisma from "@/components/db/prisma";
-import { Prisma } from "@prisma/client";
+import {revalidatePath} from "next/cache";
 
-interface DummyData {
-    first: string;
-    second: string;
-}
+export async function createDummyData(formData: FormData) {
+    const firstData = formData.get("first")
+    const secondData = formData.get("second")
 
-export default async function createDummyData({first, second}: DummyData): Promise<Boolean> {
-
-    try {
-        const submitData = await prisma.dummyTable.create({
-            data: {
-                first: first,
-                second: second
-            }
-        })
-    } catch (e) {
-        if(e instanceof Prisma.PrismaClientKnownRequestError) {
-            return false
+    const data = await prisma.dummyTable.create({
+        data: {
+            first: firstData as string,
+            second: secondData as string
         }
-    }
+    })
 
-    return true
+    revalidatePath('/test-data-audit')
 }
