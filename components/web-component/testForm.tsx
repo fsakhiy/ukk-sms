@@ -17,7 +17,6 @@ export default function TestForm() {
             }}>
                 <input type="text" name="first" id="first" placeholder={'first data'}/>
                 <input type="text" name="second" id="second" placeholder={'second data'}/>
-                {/*<button type={'submit'}>submit</button>*/}
                 <FormButton />
             </form>
         </div>
