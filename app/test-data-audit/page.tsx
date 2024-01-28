@@ -20,9 +20,10 @@ export default async function testDataAuditPage () {
     ))
 
     return (
-        <div>
-            welcome to test page used for testing audit logging
-            <br/>
+        <div className={'p-5 min-h-screen'}>
+            <div className={'font-bold text-3xl text-center'}>
+                audit logging test
+            </div>
             <TestForm />
 
             <br/>
