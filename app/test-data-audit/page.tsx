@@ -10,8 +10,21 @@ export default async function testDataAuditPage () {
     const data = await prisma.dummyTable.findMany({
         where: {
             isDeleted: false
+        },
+
+    })
+
+    const auditData = await prisma.auditLog.findMany({
+        where: {
+            tableName: "DummyTable",
+            actionType: "CREATE",
+        },
+        select: {
+            user: true,
+            dataId: true
         }
     })
+
 
     const modifiedData: DataTableType[] = []
     data.map((eachData) => (
@@ -19,7 +32,10 @@ export default async function testDataAuditPage () {
             id: eachData.id,
             firstData: eachData.first,
             secondData: eachData.second,
-            createdAt: eachData.createdAt
+            createdAt: eachData.createdAt,
+            // @ts-ignore
+            createdBy: auditData.find((data) => data.dataId === eachData.id).user.username
+            // createdBy: "test user"
         })
     ))
 

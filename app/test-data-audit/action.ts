@@ -1,6 +1,7 @@
 "use server"
 import prisma from "@/components/db/prisma";
 import {revalidatePath} from "next/cache";
+import {pathIsRelative} from "next/dist/build/webpack/plugins/jsconfig-paths-plugin";
 
 export async function createDummyData(formData: FormData) {
     const firstData = formData.get("first")
@@ -10,6 +11,18 @@ export async function createDummyData(formData: FormData) {
         data: {
             first: firstData as string,
             second: secondData as string
+        },
+        select: {
+            id: true
+        }
+    })
+
+    const createdByData = await prisma.auditLog.create({
+        data: {
+            actionType: "CREATE",
+            tableName: "DummyTable",
+            userId: 1,
+            dataId: data.id
         }
     })
 
@@ -27,6 +40,12 @@ export async function deleteDummyData(keys: number[]) {
             isDeleted: true
         }
     })
+
+    for(const key of keys) {
+        const createLogData = await prisma.auditLog.create({
+            data: {dataId: key, actionType: "DELETE", userId: 1, tableName: "DummyTable"}
+        })
+    }
 
     revalidatePath('/test-data-audit')
 }

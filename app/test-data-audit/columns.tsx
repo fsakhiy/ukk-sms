@@ -7,6 +7,7 @@ export type DataTableType = {
     id: number,
     firstData: string,
     secondData: string,
+    createdBy: string,
     createdAt: Date
 }
 
@@ -42,6 +43,10 @@ export const columns: ColumnDef<DataTableType>[] = [
     {
         accessorKey: "secondData",
         header: "Second Data"
+    },
+    {
+        accessorKey: "createdBy",
+        header: "Created By"
     },
     {
         accessorKey: "createdAt",
