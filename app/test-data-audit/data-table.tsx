@@ -17,6 +17,11 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {Button} from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/checkbox"
+import React from "react";
+import toast, {Toaster} from "react-hot-toast";
+import {deleteDummyData} from "@/app/test-data-audit/action";
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -27,15 +32,36 @@ export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const [rowSelection, setRowSelection] = React.useState({})
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection
+        }
     })
+
+    const handleDataDeletion = () => {
+        // console.log(rowSelection)
+
+        const dataSelected: { [key: number]: boolean } = rowSelection
+        const allKey: number[] = []
+        for(const key in dataSelected) {
+            // @ts-ignore
+            allKey.push(data[key].id)
+        }
+
+        deleteDummyData(allKey)
+        toast('data successfully deleted')
+    }
 
     return (
         <div>
+            <Toaster />
             <div className="rounded-md border">
             <Table>
                 <TableHeader>
@@ -96,6 +122,13 @@ export function DataTable<TData, TValue>({
                     disabled={!table.getCanNextPage()}
                 >
                     Next
+                </Button>
+                <Button
+                    variant="destructive"
+                    size={'sm'}
+                    onClick={handleDataDeletion}
+                >
+                    delete
                 </Button>
             </div>
         </div>

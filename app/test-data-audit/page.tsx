@@ -7,7 +7,11 @@ export default async function testDataAuditPage () {
 
 
 
-    const data = await prisma.dummyTable.findMany()
+    const data = await prisma.dummyTable.findMany({
+        where: {
+            isDeleted: false
+        }
+    })
 
     const modifiedData: DataTableType[] = []
     data.map((eachData) => (

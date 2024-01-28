@@ -1,6 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/table-core";
+import {Checkbox} from "@/components/ui/checkbox";
 
 export type DataTableType = {
     id: number,
@@ -10,6 +11,26 @@ export type DataTableType = {
 }
 
 export const columns: ColumnDef<DataTableType>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+    },
     {
         accessorKey: "id",
         header: "Id"

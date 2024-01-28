@@ -15,3 +15,18 @@ export async function createDummyData(formData: FormData) {
 
     revalidatePath('/test-data-audit')
 }
+
+export async function deleteDummyData(keys: number[]) {
+    const updateData = await prisma.dummyTable.updateMany({
+        where: {
+            id: {
+                in: keys
+            }
+        },
+        data: {
+            isDeleted: true
+        }
+    })
+
+    revalidatePath('/test-data-audit')
+}
