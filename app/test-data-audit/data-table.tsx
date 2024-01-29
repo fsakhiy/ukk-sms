@@ -26,11 +26,15 @@ import {deleteDummyData} from "@/app/test-data-audit/action";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    text: string
+    handler: (data: number[]) => Promise<void>
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    handler,
+    text
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
 
@@ -55,7 +59,8 @@ export function DataTable<TData, TValue>({
             allKey.push(data[key].id)
         }
 
-        deleteDummyData(allKey)
+        // deleteDummyData(allKey)
+        handler(allKey)
         toast('data successfully deleted')
     }
 
@@ -128,7 +133,7 @@ export function DataTable<TData, TValue>({
                     size={'sm'}
                     onClick={handleDataDeletion}
                 >
-                    delete
+                    {text}
                 </Button>
             </div>
         </div>

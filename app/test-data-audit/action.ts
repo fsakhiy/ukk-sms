@@ -49,3 +49,25 @@ export async function deleteDummyData(keys: number[]) {
 
     revalidatePath('/test-data-audit')
 }
+
+export async function restoreDummyData(keys: number[]) {
+    const updateData = await prisma.dummyTable.updateMany({
+        where: {
+            id: {
+                in: keys
+            }
+        },
+        data: {
+            isDeleted: false
+        }
+    })
+
+    for(const key of keys) {
+        const createLogData = await prisma.auditLog.create({
+            data: {dataId: key, actionType: "CREATE", userId: 1, tableName: "DummyTable"}
+        })
+    }
+
+    revalidatePath('/test-data-audit/trash')
+
+}
