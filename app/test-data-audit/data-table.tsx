@@ -128,13 +128,25 @@ export function DataTable<TData, TValue>({
                 >
                     Next
                 </Button>
-                <Button
-                    variant="destructive"
-                    size={'sm'}
-                    onClick={handleDataDeletion}
-                >
-                    {text}
-                </Button>
+                {table.getRowModel().rows?.length ?
+                    <Button
+                        variant="destructive"
+                        size={'sm'}
+                        onClick={handleDataDeletion}
+                    >
+                        {text}
+                    </Button>
+                    :
+                    <Button
+                        variant="destructive"
+                        disabled
+                        size={'sm'}
+                        onClick={handleDataDeletion}
+                    >
+                        {text}
+                    </Button>
+                }
+
             </div>
         </div>
     )
