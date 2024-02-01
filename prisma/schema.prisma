@@ -145,7 +145,7 @@ model Teacher {
 model User {
   id        Int      @unique @default(autoincrement())
   uuid      String
-  username  String
+  username  String   @unique
   password  String
   role      String
   studentId Int?     @unique
