@@ -11,6 +11,12 @@
 //     matcher: '/about/:path*',
 // }
 
-export { default as middleware } from "next-auth/middleware"
+import {NextRequest} from "next/server";
+
+export { default } from "next-auth/middleware"
+
+export function checkAdmin (req: NextRequest){
+
+}
 
 export const config = { matcher: ["/rbac/test"] }
