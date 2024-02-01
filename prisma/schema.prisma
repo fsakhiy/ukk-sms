@@ -101,6 +101,7 @@ model Classroom {
   id   Int    @unique @default(autoincrement())
   uuid String @default(uuid())
 
+  name     String
   Students Student[]
 
   createdAt DateTime @default(now())
