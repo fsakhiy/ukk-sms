@@ -115,8 +115,9 @@ model Student {
   name                 String
   schoolNumber         String?
   nationalSchoolNumber String?
-  classNumber          Int
-  user                 User?
+
+  classNumber Int
+  user        User?
 
   classroomId Int
   classroom   Classroom @relation(fields: [classroomId], references: [id])
