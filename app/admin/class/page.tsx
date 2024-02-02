@@ -21,6 +21,9 @@ export default async function ClassPage () {
         select: {
             user: true,
             dataId: true
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 
