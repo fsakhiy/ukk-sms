@@ -25,6 +25,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import createNewClass from "@/app/admin/class/action";
+import FormButton from "@/components/web-component/formButton";
+import {useFormStatus} from "react-dom";
+import {Loader2} from "lucide-react";
 
 const formSchema = z.object({
     classroom: z.string({
@@ -42,12 +45,14 @@ export default function CreateClassForm() {
         },
     })
 
+    // const { isSubmitting }  = form.formState
+
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
-        createNewClass(values.classroom)
+        await createNewClass(values.classroom)
 
     }
 
@@ -81,7 +86,8 @@ export default function CreateClassForm() {
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit">Submit</Button>
+                                {/*<FormButton >Submit</FormButton>*/}
+                                {form.formState.isSubmitting ? <Button type={'submit'} disabled><Loader2 className={'mr-2 h-4 w-4 animate-spin'}/>adding data</Button> : <Button type="submit">Submit</Button>}
                             </form>
                         </Form>
                     </div>
