@@ -16,25 +16,21 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import {Button} from "@/components/ui/Button";
-import { Checkbox } from "@/components/ui/checkbox"
 import React from "react";
-import toast, {Toaster} from "react-hot-toast";
-import {deleteDummyData} from "@/app/test-data-audit/action";
+import {Button} from "@/components/ui/Button";
+import {boolean} from "zod";
 
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
-    text: string
+    data: TData[],
     handler: (data: number[]) => Promise<void>
 }
 
 export function DataTable<TData, TValue>({
                                              columns,
                                              data,
-                                             handler,
-                                             text
+    handler
                                          }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
 
@@ -42,111 +38,104 @@ export function DataTable<TData, TValue>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         onRowSelectionChange: setRowSelection,
+        getPaginationRowModel: getPaginationRowModel(),
         state: {
             rowSelection
         }
     })
 
-    const handleDataDeletion = () => {
-        // console.log(rowSelection)
+    // const selectedData = table.getFilteredSelectedRowModel().rows.map(obj => +obj.id)
 
-        const dataSelected: { [key: number]: boolean } = rowSelection
+    const handleDataDeletion = async () => {
+
+        const dataSelected: { [key: number]: boolean} = rowSelection
         const allKey: number[] = []
         for(const key in dataSelected) {
             // @ts-ignore
             allKey.push(data[key].id)
         }
 
-        // deleteDummyData(allKey)
-        handler(allKey)
-        toast('data successfully deleted')
+        await handler(allKey)
+        // console.log(allKey)
     }
 
     return (
-        <div>
-            <Toaster />
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    )
-                                })}
+        <div className="rounded-md border">
+            <Table>
+                <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => {
+                                return (
+                                    <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                    </TableHead>
+                                )
+                            })}
+                        </TableRow>
+                    ))}
+                </TableHeader>
+                <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                        table.getRowModel().rows.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                data-state={row.getIsSelected() && "selected"}
+                            >
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id}>
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </TableCell>
+                                ))}
                             </TableRow>
-                        ))}
-                    </TableHeader>
-                    <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-                {table.getRowModel().rows?.length ?
-                    <Button
-                        variant="destructive"
-                        size={'sm'}
-                        onClick={handleDataDeletion}
-                    >
-                        {text}
-                    </Button>
-                    :
-                    <Button
-                        variant="destructive"
-                        disabled
-                        size={'sm'}
-                        onClick={handleDataDeletion}
-                    >
-                        {text}
-                    </Button>
-                }
-
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={columns.length} className="h-24 text-center">
+                                No results.
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+            <div className={'flex p-3'}>
+                <div className="flex-1 text-sm text-muted-foreground justify-normal items-center">
+                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                </div>
+                {/*<div className={'justify-end items-center'}>*/}
+                    <div className="flex items-center justify-end space-x-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => table.previousPage()}
+                            disabled={!table.getCanPreviousPage()}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => table.nextPage()}
+                            disabled={!table.getCanNextPage()}
+                        >
+                            Next
+                        </Button>
+                        <Button
+                            variant={'destructive'}
+                            size={'sm'}
+                            onClick={handleDataDeletion}
+                            >
+                            delete
+                        </Button>
+                    </div>
+                {/*</div>*/}
             </div>
         </div>
     )

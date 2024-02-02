@@ -24,7 +24,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import createNewClass from "@/app/admin/class/action";
+import {createNewClass} from "@/app/admin/class/action";
 import FormButton from "@/components/web-component/formButton";
 import {useFormStatus} from "react-dom";
 import {Loader2} from "lucide-react";
@@ -58,7 +58,7 @@ export default function CreateClassForm() {
 
     return (
         <Dialog>
-            <DialogTrigger className={'text-white bg-black p-3 rounded-lg'}>
+            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
                 {/*<Button>*/}
                     Tambah data kelas baru
                 {/*</Button>*/}
