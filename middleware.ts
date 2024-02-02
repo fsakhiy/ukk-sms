@@ -19,4 +19,4 @@ export function checkAdmin (req: NextRequest){
 
 }
 
-export const config = { matcher: ["/rbac/test"] }
+export const config = { matcher: ["/rbac/test", "/admin/:path*"] }
