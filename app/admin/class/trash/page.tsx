@@ -16,11 +16,14 @@ export default async function ClassPage () {
     const auditData = await prisma.auditLog.findMany({
         where: {
             tableName: "Classroom",
-            actionType: "DELETE"
+            actionType: "CREATE"
         },
         select: {
             user: true,
             dataId: true
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 
