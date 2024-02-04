@@ -19,6 +19,8 @@ import {
 import React from "react";
 import {Button} from "@/components/ui/Button";
 import {boolean} from "zod";
+import {Toaster} from "@/components/ui/toaster";
+import {toast} from "@/components/ui/use-toast";
 
 
 interface DataTableProps<TData, TValue> {
@@ -56,12 +58,19 @@ export function DataTable<TData, TValue>({
             allKey.push(data[key].id)
         }
 
+        // if(allKey.length < 1) {
+        //     return
+        // }
+
+        // console.log(table.getFilteredSelectedRowModel().rows.length)
         await handler(allKey)
-        // console.log(allKey)
+        toast({description: "data deleted"})
+
     }
 
     return (
     <div className={'space-y-5'}>
+        <Toaster />
         <div className="rounded-md border ">
             <Table>
                 <TableHeader>
@@ -129,13 +138,25 @@ export function DataTable<TData, TValue>({
                 >
                     Next
                 </Button>
-                <Button
-                    variant={'destructive'}
-                    size={'sm'}
-                    onClick={handleDataDeletion}
-                >
-                    delete
-                </Button>
+                {/*{(table.getRowModel().rows?.length || table.getFilteredSelectedRowModel().rows.length != 0) ?*/}
+                {table.getFilteredSelectedRowModel().rows.length != 0 ?
+                    <Button
+                        variant="destructive"
+                        size={'sm'}
+                        onClick={handleDataDeletion}
+                    >
+                        delete
+                    </Button>
+                    :
+                    <Button
+                        variant="destructive"
+                        disabled
+                        size={'sm'}
+                        onClick={handleDataDeletion}
+                    >
+                        delete
+                    </Button>
+                }
             </div>
             {/*</div>*/}
         </div>
