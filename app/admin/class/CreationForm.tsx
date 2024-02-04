@@ -28,6 +28,8 @@ import {createNewClass} from "@/app/admin/class/action";
 import FormButton from "@/components/web-component/formButton";
 import {useFormStatus} from "react-dom";
 import {Loader2} from "lucide-react";
+import { Toaster } from "@/components/ui/toaster"
+import {toast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     classroom: z.string({
@@ -53,11 +55,13 @@ export default function CreateClassForm() {
         // ✅ This will be type-safe and validated.
         console.log(values)
         await createNewClass(values.classroom)
+        toast({description: "data created"})
 
     }
 
     return (
         <Dialog>
+            <Toaster />
             <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
                 {/*<Button>*/}
                     Tambah data kelas baru
