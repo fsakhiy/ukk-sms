@@ -16,7 +16,7 @@ export default async function ClassPage () {
     const auditData = await prisma.auditLog.findMany({
         where: {
             tableName: "Classroom",
-            actionType: "CREATE"
+            actionType: "DELETE"
         },
         select: {
             user: true,
