@@ -58,11 +58,6 @@ export function DataTable<TData, TValue>({
             allKey.push(data[key].id)
         }
 
-        // if(allKey.length < 1) {
-        //     return
-        // }
-
-        // console.log(table.getFilteredSelectedRowModel().rows.length)
         await handler(allKey)
         toast({description: "data deleted"})
 
@@ -138,7 +133,6 @@ export function DataTable<TData, TValue>({
                 >
                     Next
                 </Button>
-                {/*{(table.getRowModel().rows?.length || table.getFilteredSelectedRowModel().rows.length != 0) ?*/}
                 {table.getFilteredSelectedRowModel().rows.length != 0 ?
                     <Button
                         variant="destructive"
