@@ -55,6 +55,8 @@ model MainSchedule {
   startPeriod DateTime
   endPeriod   DateTime
   class       Classes[]
+  classroomId Int
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -107,7 +109,8 @@ model Classroom {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isDeleted Boolean @default(false)
+  isDeleted    Boolean        @default(false)
+  MainSchedule MainSchedule[]
 }
 
 model Student {
