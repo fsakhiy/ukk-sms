@@ -120,7 +120,7 @@ model Student {
   schoolNumber         String?
   nationalSchoolNumber String?
 
-  classNumber Int
+  // classNumber Int
   user        User?
 
   classroomId Int
