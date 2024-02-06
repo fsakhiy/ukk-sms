@@ -38,6 +38,7 @@ async function createNewStudent(values: z.infer<typeof studentFormSchema>) {
             studentId: studentData.id,
             password: defaultPassword,
             role: "STUDENT",
+            accountType: "STUDENT"
         },
         select: {
             id: true
