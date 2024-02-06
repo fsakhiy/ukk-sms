@@ -1,38 +1,41 @@
-// "use server"
-"use client"
+"use server"
 
+import CreateStudentForm, {ClassroomDataType} from "@/app/admin/student/CreationForm";
+import prisma from '@/components/db/prisma'
+import CreateScheduleForm from "@/app/admin/schedule/CreationForm";
+import {DataTable} from "@/components/web-component/DataTable";
+import {columns} from "@/app/admin/schedule/columns";
+import {deleteSchedule} from "@/app/admin/schedule/action";
 
+export default async function StudentPage() {
 
-import CreateStudentForm from "@/app/admin/student/CreationForm";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+    const modifiedClassrooms: ClassroomDataType[] = []
+    const classrooms = await prisma.classroom.findMany()
+    classrooms.map((classroom) => {
+        modifiedClassrooms.push({
+            classroomId: classroom.id,
+            name: classroom.name
+        })
+    })
 
-
-export default function StudentPage() {
     return (
-        <div>
-            <div>
-                hello
+        <div className={'p-10 w-full flex flex-col space-y-5 justify-center items-center'}>
+
+            <div className={'flex w-full items-center space-x-5'}>
+                <div className={'font-bold text-3xl'}>
+                    Data Murid Sekolah
+                </div>
+                <div>
+                    <CreateStudentForm classrooms={modifiedClassrooms}/>
+                </div>
             </div>
-            {/*<CreateStudentForm />*/}
-            <Dialog>
-                <DialogTrigger>Open</DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Are you absolutely sure?</DialogTitle>
-                        <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
-                        </DialogDescription>
-                    </DialogHeader>
-                </DialogContent>
-            </Dialog>
+
+            <div className={'w-full'}>
+                <div className={'w-full'}>
+                    {/*<DataTable columns={columns} data={modifiedData} handler={deleteSchedule}/>*/}
+                </div>
+            </div>
+
         </div>
     )
 }
