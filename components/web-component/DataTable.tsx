@@ -17,7 +17,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import React from "react";
-import {Button} from "@/components/ui/Button";
+import {Button} from "@/components/ui/button";
 import {boolean} from "zod";
 import {Toaster} from "@/components/ui/toaster";
 import {toast} from "@/components/ui/use-toast";

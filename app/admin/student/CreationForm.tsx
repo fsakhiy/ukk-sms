@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -32,64 +32,72 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { useToast } from "@/components/ui/use-toast"
+import { Toaster } from "@/components/ui/toaster"
+import {createNewStudent} from "@/app/admin/student/action";
+import {Loader2} from "lucide-react";
 
-const formSchema = z.object({
-    // username: z.string().min(2, {
-    //     message: "Username must be at least 2 characters.",
-    // }),
-    // password: z.string().min(5, {
-    //     message: "password must be at least 5 characters"
-    // })
+export const studentFormSchema = z.object({
+
     name: z.string(),
     nis: z.string(),
     nisn: z.string(),
-    kelas: z
+    classroom: z
         .string({
             required_error: "kelas wajib dipilih"
 
-        }),
-    jurusan: z
-        .string({
-            required_error: "jurusan wajib dipilih"
-        }),
-    pembagianKelas: z
-        .string({
-            required_error: "pembagian kelas wajib dipilih"
         })
 })
 
-export default function CreateStudentForm() {
+export interface ClassroomDataType {
+    classroomId: number
+    name: string
+}
+
+interface ClassroomsType {
+    classrooms: ClassroomDataType[]
+}
+
+export default function CreateStudentForm({classrooms}: ClassroomsType) {
     // ...
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const { toast } = useToast()
+
+    const form = useForm<z.infer<typeof studentFormSchema>>({
+        resolver: zodResolver(studentFormSchema),
         defaultValues: {
             name: "",
             nis: "",
             nisn: "",
-            kelas: "",
-            jurusan: "",
-            pembagianKelas: ""
+            classroom: "",
         },
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof studentFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        // console.log(values)
+
+        await createNewStudent(values)
+        toast({ description: "data created"})
+
     }
 
     return (
         <Dialog>
-            <DialogTrigger>
-                Tambah data siswa baru
+            <Toaster />
+            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
+                {/*<Button>*/}
+                Tambah data murid baru
+                {/*</Button>*/}
             </DialogTrigger>
+
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Tambah data siswa baru</DialogTitle>
                 </DialogHeader>
-                <div  className={'p-10 items-center justify-center flex flex-col space-y-10 w-full'}>
+                <div  className={'items-center justify-center flex flex-col space-y-10 w-full'}>
                     {/*<div className={'font-bold text-3xl'}>*/}
                     {/*    Tambah Siswa Baru*/}
                     {/*</div>*/}
@@ -146,79 +154,38 @@ export default function CreateStudentForm() {
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="kelas"
+                                    name="classroom"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Kelas</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Pilih Kelas" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="10">10</SelectItem>
-                                                    <SelectItem value="11">11</SelectItem>
-                                                    <SelectItem value="12">12</SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                            <FormLabel>Untuk Kelas</FormLabel>
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder={"pilih kelas"} />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {classrooms.map((classroom) => (
+                                                            <SelectItem key={classroom.classroomId} value={classroom.classroomId.toString()}>{classroom.name}</SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="jurusan"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Jurusan</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Pilih Jurusan" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="PPLG">PPLG</SelectItem>
-                                                    <SelectItem value="DKV">DKV</SelectItem>
-                                                    <SelectItem value="TJKT">TJKT</SelectItem>
-                                                    <SelectItem value="CG">CG</SelectItem>
-                                                    <SelectItem value="PS">PS</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="pembagianKelas"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Pembagian Kelas</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Pilih Jurusan" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="1">1</SelectItem>
-                                                    <SelectItem value="2">2</SelectItem>
-                                                    <SelectItem value="3">3</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <Button type="submit">Submit</Button>
+                                {form.formState.isSubmitting ?
+                                    <Button type={'submit'} disabled><Loader2 className={'mr-2 h-4 w-4 animate-spin'}/>adding data</Button>
+                                    :
+                                    <Button type="submit">Submit</Button>
+                                }
+
                             </form>
                         </Form>
                     </div>
-                </div>
-                <div>
-                    hello
                 </div>
             </DialogContent>
         </Dialog>
