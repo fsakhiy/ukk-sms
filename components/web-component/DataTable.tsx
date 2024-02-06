@@ -16,56 +16,57 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import {Button} from "@/components/ui/button";
 import React from "react";
-import toast, {Toaster} from "react-hot-toast";
+import {Button} from "@/components/ui/button";
+import {boolean} from "zod";
+import {Toaster} from "@/components/ui/toaster";
+import {toast} from "@/components/ui/use-toast";
 
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
-    text: string
+    data: TData[],
     handler: (data: number[]) => Promise<void>
 }
 
 export function DataTable<TData, TValue>({
-    columns,
-    data,
-    handler,
-    text
-}: DataTableProps<TData, TValue>) {
+                                             columns,
+                                             data,
+    handler
+                                         }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         onRowSelectionChange: setRowSelection,
+        getPaginationRowModel: getPaginationRowModel(),
         state: {
             rowSelection
         }
     })
 
-    const handleDataDeletion = () => {
-        // console.log(rowSelection)
+    // const selectedData = table.getFilteredSelectedRowModel().rows.map(obj => +obj.id)
 
-        const dataSelected: { [key: number]: boolean } = rowSelection
+    const handleDataDeletion = async () => {
+
+        const dataSelected: { [key: number]: boolean} = rowSelection
         const allKey: number[] = []
         for(const key in dataSelected) {
             // @ts-ignore
             allKey.push(data[key].id)
         }
 
-        // deleteDummyData(allKey)
-        handler(allKey)
-        toast('data successfully deleted')
+        await handler(allKey)
+        toast({description: "data deleted"})
+
     }
 
     return (
-        <div>
-            <Toaster />
-            <div className="rounded-md border">
+    <div className={'space-y-5'}>
+        <Toaster />
+        <div className="rounded-md border ">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -109,7 +110,13 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
         </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+        <div className={'flex'}>
+            <div className="flex-1 text-sm text-muted-foreground justify-normal items-center">
+                {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
+            {/*<div className={'justify-end items-center'}>*/}
+            <div className="flex items-center justify-end space-x-2">
                 <Button
                     variant="outline"
                     size="sm"
@@ -126,13 +133,13 @@ export function DataTable<TData, TValue>({
                 >
                     Next
                 </Button>
-                {table.getRowModel().rows?.length ?
+                {table.getFilteredSelectedRowModel().rows.length != 0 ?
                     <Button
                         variant="destructive"
                         size={'sm'}
                         onClick={handleDataDeletion}
                     >
-                        {text}
+                        delete
                     </Button>
                     :
                     <Button
@@ -141,11 +148,12 @@ export function DataTable<TData, TValue>({
                         size={'sm'}
                         onClick={handleDataDeletion}
                     >
-                        {text}
+                        delete
                     </Button>
                 }
-
             </div>
+            {/*</div>*/}
         </div>
-    )
+    </div>
+)
 }

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -24,10 +24,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import createNewClass from "@/app/admin/class/action";
+import {createNewClass} from "@/app/admin/class/action";
 import FormButton from "@/components/web-component/formButton";
 import {useFormStatus} from "react-dom";
 import {Loader2} from "lucide-react";
+import { Toaster } from "@/components/ui/toaster"
+import {toast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     classroom: z.string({
@@ -51,14 +53,16 @@ export default function CreateClassForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+
         await createNewClass(values.classroom)
+        toast({description: "data created"})
 
     }
 
     return (
         <Dialog>
-            <DialogTrigger className={'text-white bg-black p-3 rounded-lg'}>
+            <Toaster />
+            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
                 {/*<Button>*/}
                     Tambah data kelas baru
                 {/*</Button>*/}
