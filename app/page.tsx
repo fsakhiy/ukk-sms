@@ -1,4 +1,3 @@
-import {Button} from "@/components/ui/Button";
 import LoginButton from "@/components/web-component/LoginButton";
 import LogoutButton from "@/components/web-component/LogoutButton";
 
