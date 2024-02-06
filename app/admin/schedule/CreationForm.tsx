@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
+
 import {
     Form,
     FormControl,
@@ -51,6 +52,7 @@ import {Loader2} from "lucide-react";
 import { Toaster } from "@/components/ui/toaster"
 import {toast} from "@/components/ui/use-toast";
 import {createNewSchedule} from "@/app/admin/schedule/action";
+
 export interface ClassroomDataType {
     classroomId: number
     name: string
@@ -230,7 +232,7 @@ export default function CreateScheduleForm({classrooms}: ClassroomsType) {
                                                         selected={field.value}
                                                         onSelect={field.onChange}
                                                         // disabled={(date) =>
-                                                        //     date < new Date() || date < new Date("1900-01-01")
+                                                        //     date < new Date() || dat e < new Date("1900-01-01")
                                                         // }
                                                         disabled={(date) =>
                                                             date < new Date()
