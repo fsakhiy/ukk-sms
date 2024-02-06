@@ -147,9 +147,15 @@ model Teacher {
   isDeleted Boolean @default(false)
 }
 
+enum UserAccountType {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
 model User {
   id        Int      @unique @default(autoincrement())
-  uuid      String
+  uuid      String  @default(uuid())
   username  String   @unique
   password  String
   role      String
@@ -162,6 +168,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  accountType UserAccountType
   isAdmin  Boolean?   @default(false)
   AuditLog AuditLog[]
 }
