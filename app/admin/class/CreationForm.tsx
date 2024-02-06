@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -53,7 +53,7 @@ export default function CreateClassForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+
         await createNewClass(values.classroom)
         toast({description: "data created"})
 
