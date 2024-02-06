@@ -16,11 +16,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import {Button} from "@/components/ui/Button";
-import { Checkbox } from "@/components/ui/checkbox"
+import {Button} from "@/components/ui/button";
 import React from "react";
 import toast, {Toaster} from "react-hot-toast";
-import {deleteDummyData} from "@/app/test-data-audit/action";
 
 
 interface DataTableProps<TData, TValue> {
