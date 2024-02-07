@@ -92,7 +92,7 @@ async function deleteStudentData(ids: number[]) {
     ids.map(async (id) => {
         const auditInsertion = await prisma.auditLog.create({
             data: {
-                actionType: "CREATE",
+                actionType: "DELETE",
                 tableName: "Classroom",
                 // @ts-ignore
                 userId: userDataFromDB.id,
