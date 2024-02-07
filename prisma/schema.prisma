@@ -70,10 +70,8 @@ model Subject {
 
   name String
 
-  teacherId Int
-  teacher   Teacher @relation(fields: [teacherId], references: [id])
-
-  class Classes[]
+  teacher Teacher[]
+  class   Classes[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,7 +119,7 @@ model Student {
   nationalSchoolNumber String?
 
   // classNumber Int
-  user        User?
+  user User?
 
   classroomId Int
   classroom   Classroom @relation(fields: [classroomId], references: [id])
@@ -133,18 +131,19 @@ model Student {
 }
 
 model Teacher {
-  id                    Int       @unique @default(autoincrement())
-  uuid                  String    @default(uuid())
+  id                    Int     @unique @default(autoincrement())
+  uuid                  String  @default(uuid())
   name                  String
   teacherNumber         String?
   nationalTeacherNumber String?
   user                  User?
-  Subject               Subject[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isDeleted Boolean @default(false)
+  isDeleted Boolean  @default(false)
+  Subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId Int
 }
 
 enum UserAccountType {
@@ -155,7 +154,7 @@ enum UserAccountType {
 
 model User {
   id        Int      @unique @default(autoincrement())
-  uuid      String  @default(uuid())
+  uuid      String   @default(uuid())
   username  String   @unique
   password  String
   role      String
@@ -169,6 +168,6 @@ model User {
   updatedAt DateTime @updatedAt
 
   accountType UserAccountType
-  isAdmin  Boolean?   @default(false)
-  AuditLog AuditLog[]
+  isAdmin     Boolean?        @default(false)
+  AuditLog    AuditLog[]
 }
