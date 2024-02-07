@@ -36,41 +36,35 @@ import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import {createNewStudent} from "@/app/admin/student/action";
 import {Loader2} from "lucide-react";
+import {createNewSubject} from "@/app/admin/subject/action";
 
-export const studentFormSchema = z.object({
+export const subjectFormSchema = z.object({
 
     name: z.string({
         required_error: "nama wajib diisi"
     }).min(1)
 })
 
-// export interface ClassroomDataType {
-//     classroomId: number
-//     name: string
-// }
-//
-// interface ClassroomsType {
-//     classrooms: ClassroomDataType[]
-// }
 
 export default function CreateSubjectForm() {
     // ...
 
     const { toast } = useToast()
 
-    const form = useForm<z.infer<typeof studentFormSchema>>({
-        resolver: zodResolver(studentFormSchema),
+    const form = useForm<z.infer<typeof subjectFormSchema>>({
+        resolver: zodResolver(subjectFormSchema),
         defaultValues: {
             name: "",
         },
     })
 
     // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof studentFormSchema>) {
+    async function onSubmit(values: z.infer<typeof subjectFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         // console.log(values)
 
+        await createNewSubject(values)
         toast({ description: "data created"})
 
     }
@@ -80,13 +74,13 @@ export default function CreateSubjectForm() {
             <Toaster />
             <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
                 {/*<Button>*/}
-                Tambah data murid baru
+                Tambah data mata pelajaran baru
                 {/*</Button>*/}
             </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Tambah data siswa baru</DialogTitle>
+                    <DialogTitle>Tambah data mata pelajaran baru</DialogTitle>
                 </DialogHeader>
                 <div  className={'items-center justify-center flex flex-col space-y-10 w-full'}>
                     {/*<div className={'font-bold text-3xl'}>*/}
@@ -100,9 +94,9 @@ export default function CreateSubjectForm() {
                                     name="name"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Nama Siswa</FormLabel>
+                                            <FormLabel>Nama Mata Pelajaran</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="john doe" {...field} />
+                                                <Input placeholder="Bahasa Inggris, Matematika, KRPL, dll..." {...field} />
                                             </FormControl>
                                             {/*<FormDescription>*/}
                                             {/*    This is your public display name.*/}
@@ -112,31 +106,6 @@ export default function CreateSubjectForm() {
                                     )}
                                 />
 
-                                {/*<FormField*/}
-                                {/*    control={form.control}*/}
-                                {/*    name="classroom"*/}
-                                {/*    render={({ field }) => (*/}
-                                {/*        <FormItem>*/}
-                                {/*            <FormLabel>Untuk Kelas</FormLabel>*/}
-                                {/*            <FormControl>*/}
-                                {/*                <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>*/}
-                                {/*                    <FormControl>*/}
-                                {/*                        <SelectTrigger>*/}
-                                {/*                            <SelectValue placeholder={"pilih kelas"} />*/}
-                                {/*                        </SelectTrigger>*/}
-                                {/*                    </FormControl>*/}
-                                {/*                    <SelectContent>*/}
-                                {/*                        {classrooms.map((classroom) => (*/}
-                                {/*                            <SelectItem key={classroom.classroomId} value={classroom.classroomId.toString()}>{classroom.name}</SelectItem>*/}
-                                {/*                        ))}*/}
-                                {/*                    </SelectContent>*/}
-                                {/*                </Select>*/}
-                                {/*            </FormControl>*/}
-
-                                {/*            <FormMessage />*/}
-                                {/*        </FormItem>*/}
-                                {/*    )}*/}
-                                {/*/>*/}
                                 {form.formState.isSubmitting ?
                                     <Button type={'submit'} disabled><Loader2 className={'mr-2 h-4 w-4 animate-spin'}/>adding data</Button>
                                     :
