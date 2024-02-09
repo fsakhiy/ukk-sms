@@ -2,18 +2,16 @@
 
 import {ColumnDef} from "@tanstack/table-core";
 import {Checkbox} from "@/components/ui/checkbox";
-import {Button} from "@/components/ui/button";
-import {Info} from "lucide-react";
-import Link from "next/link";
 
-export type ClassroomDataTableType = {
+export type StudentDataInClassroom = {
     id: number,
     name: string,
+    username: string,
     createdBy: string,
-    createdAt: Date
+    createdAt: Date,
 }
 
-export const columns: ColumnDef<ClassroomDataTableType>[] = [
+export const columns: ColumnDef<StudentDataInClassroom>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -42,7 +40,11 @@ export const columns: ColumnDef<ClassroomDataTableType>[] = [
     },
     {
         accessorKey: "name",
-        header: "Nama"
+        header: "Nama Siswa"
+    },
+    {
+        accessorKey: "username",
+        header: "Username Akun Siswa"
     },
     {
         accessorKey: "createdBy",
@@ -51,21 +53,5 @@ export const columns: ColumnDef<ClassroomDataTableType>[] = [
     {
         accessorKey: "createdAt",
         header: "Waktu Pembuatan"
-    },
-    {
-        id: "goToDetail",
-        header: 'Actions',
-        cell: ({ row }) => (
-            <Link  href={`/admin/class/about/${row.original.id}`}>
-                <Button
-                    variant={'secondary'}
-                    // onClick={() => { row. }}
-
-                >
-                    <Info className={'mr-2 h-4 w-4'} />
-                    detail
-                </Button>
-            </Link>
-        )
     }
 ]
