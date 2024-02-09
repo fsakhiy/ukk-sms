@@ -48,22 +48,6 @@ model AuditLog {
   updatedAt DateTime @updatedAt
 }
 
-model MainSchedule {
-  id          Int       @unique @default(autoincrement())
-  uuid        String    @default(uuid())
-  name        String
-  startPeriod DateTime
-  endPeriod   DateTime
-  class       Classes[]
-  classroomId Int
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  isDeleted Boolean @default(false)
-}
-
 model Subject {
   id   Int    @unique @default(autoincrement())
   uuid String @default(uuid())
@@ -72,24 +56,6 @@ model Subject {
 
   teacher Teacher[]
   class   Classes[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  isDeleted Boolean @default(false)
-}
-
-model Classes {
-  id             Int          @unique @default(autoincrement())
-  uuid           String       @default(uuid())
-  mainScheduleId Int
-  MainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id])
-
-  startTime DateTime
-  endTime   DateTime
-
-  Subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -128,6 +94,8 @@ model Student {
   updatedAt DateTime @updatedAt
 
   isDeleted Boolean @default(false)
+
+  StudentSchedule StudentSchedule[]
 }
 
 model Teacher {
@@ -141,7 +109,7 @@ model Teacher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isDeleted Boolean  @default(false)
+  isDeleted Boolean @default(false)
   Subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId Int
 }
@@ -170,4 +138,64 @@ model User {
   accountType UserAccountType
   isAdmin     Boolean?        @default(false)
   AuditLog    AuditLog[]
+}
+
+model StudentSchedule {
+  id   Int    @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  classesId Int
+  classes   Classes @relation(fields: [classesId], references: [id])
+
+  status       String
+  absentLetter String?
+  isAbsent     Boolean @default(false)
+
+  date DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MainSchedule {
+  id          Int      @unique @default(autoincrement())
+  uuid        String   @default(uuid())
+  name        String
+  startPeriod DateTime
+  endPeriod   DateTime
+
+  class       Classes[]
+  classroomId Int
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted Boolean    @default(false)
+}
+
+model Classes {
+  id             Int          @unique @default(autoincrement())
+  uuid           String       @default(uuid())
+
+  mainScheduleId Int
+  MainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id])
+
+  startTime DateTime
+  endTime   DateTime
+
+  date      DateTime
+  classCode String
+
+  Subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  isDeleted       Boolean           @default(false)
+  StudentSchedule StudentSchedule[]
 }
