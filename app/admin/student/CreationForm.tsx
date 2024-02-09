@@ -36,6 +36,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import {createNewStudent} from "@/app/admin/student/action";
 import {Loader2} from "lucide-react";
+import {useState} from "react";
 
 export const studentFormSchema = z.object({
 
@@ -84,14 +85,19 @@ export default function CreateStudentForm({classrooms}: ClassroomsType) {
 
     }
 
+    const [open, setOpen] = useState(false)
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <Toaster />
-            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
-                {/*<Button>*/}
-                Tambah data murid baru
-                {/*</Button>*/}
-            </DialogTrigger>
+                    {/*<DialogTrigger>*/}
+                <Button variant={'outline'}
+                        onClick={() => {setOpen(!open)}}
+                >
+                    {/*<DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>*/}
+                    Tambah data murid baru
+                </Button>
+                    {/*</DialogTrigger>*/}
 
             <DialogContent>
                 <DialogHeader>
