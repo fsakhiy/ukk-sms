@@ -164,8 +164,6 @@ model MainSchedule {
   id          Int      @unique @default(autoincrement())
   uuid        String   @default(uuid())
   name        String
-  startPeriod DateTime
-  endPeriod   DateTime
 
   class       Classes[]
   classroomId Int
