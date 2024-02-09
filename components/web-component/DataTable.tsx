@@ -21,6 +21,7 @@ import {Button} from "@/components/ui/button";
 import {boolean} from "zod";
 import {Toaster} from "@/components/ui/toaster";
 import {toast} from "@/components/ui/use-toast";
+import {Trash2} from "lucide-react";
 
 
 interface DataTableProps<TData, TValue> {
@@ -32,7 +33,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
                                              columns,
                                              data,
-    handler
+                                             handler
                                          }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
 
@@ -59,7 +60,9 @@ export function DataTable<TData, TValue>({
         }
 
         await handler(allKey)
+
         toast({description: "data deleted"})
+        // console.log(allKey)
 
     }
 
@@ -139,6 +142,8 @@ export function DataTable<TData, TValue>({
                         size={'sm'}
                         onClick={handleDataDeletion}
                     >
+
+                        <Trash2 className={'mr-2 h-4 w-4'} />
                         delete
                     </Button>
                     :
@@ -148,6 +153,7 @@ export function DataTable<TData, TValue>({
                         size={'sm'}
                         onClick={handleDataDeletion}
                     >
+                        <Trash2 className={'mr-2 h-4 w-4'} />
                         delete
                     </Button>
                 }
