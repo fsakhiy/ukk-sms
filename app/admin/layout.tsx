@@ -1,6 +1,7 @@
 "use server"
 import {getServerSession} from "next-auth";
 import LogoutButton from "@/components/web-component/LogoutButton";
+import prisma from '@/components/db/prisma'
 
 export default async function AdminPageLayout({
                                             children, // will be a page or nested layout
@@ -8,6 +9,24 @@ export default async function AdminPageLayout({
     children: React.ReactNode
 }) {
     const userSession = await getServerSession()
+
+    const userData = await prisma.user.findUnique({
+        where: {
+            // @ts-ignore
+            username: userSession.user.name
+        }
+    })
+
+    if(!userData || userData.isAdmin === false) {
+        return (
+            <div className={'p-10 font-bold text-3xl'}>
+                mohon maaf, kamu tidak bisa mengakses halaman ini
+                <br/>
+                <LogoutButton text={'ganti akun'} />
+            </div>
+        )
+    } else {
+
 
     return (
         <section>
@@ -20,11 +39,12 @@ export default async function AdminPageLayout({
 
                 </div>
                 <div className={'flex justify-end'}>
-                    <LogoutButton />
+                    <LogoutButton text={'log out'} />
                 </div>
             </nav>
 
             {children}
         </section>
     )
+    }
 }
