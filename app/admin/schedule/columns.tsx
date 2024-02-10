@@ -7,8 +7,6 @@ export type ScheduleDataTableType = {
     id: number,
     name: string,
     classroom: string,
-    startDate: Date,
-    endDate: Date,
     createdBy: string,
     createdAt: Date
 }
@@ -47,14 +45,6 @@ export const columns: ColumnDef<ScheduleDataTableType>[] = [
     {
         accessorKey: "classroom",
         header: "Kelas"
-    },
-    {
-        accessorKey: "startDate",
-        header: "Tanggal Mulai"
-    },
-    {
-        accessorKey: "endDate",
-        header: "Tanggal Selesai"
     },
     {
         accessorKey: "createdBy",
