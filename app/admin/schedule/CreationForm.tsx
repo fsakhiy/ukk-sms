@@ -104,8 +104,10 @@ export default function CreateScheduleForm({classrooms}: ClassroomsType) {
     return (
         <Dialog>
             <Toaster />
-            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
-                Tambah data jadwal baru
+            <DialogTrigger asChild>
+                <Button variant={'outline'}>
+                    Tambah data jadwal baru
+                </Button>
             </DialogTrigger>
 
             <DialogContent>
