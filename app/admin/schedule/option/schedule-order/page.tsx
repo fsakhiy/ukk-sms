@@ -7,16 +7,6 @@ import {DummyHandler} from "@/app/admin/schedule/option/schedule-order/action";
 
 export default async function ScheduleOrderMasterOptionPage() {
     const optionDetail = await prisma.scheduleOrderMasterOption.findMany()
-    const optionDetailModified: ScheduleOrderDataTableType[] = []
-
-    optionDetail.map((detail) => {
-        optionDetailModified.push({
-            id: detail.id,
-            name: detail.name,
-            startTime: detail.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit'}),
-            endTime: detail.endTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit'}),
-        })
-    })
 
     const optionDetailMonday: ScheduleOrderDataTableType[] = []
     const optionDetailTuesday: ScheduleOrderDataTableType[] = []
