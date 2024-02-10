@@ -55,12 +55,12 @@ model Subject {
   name String
 
   teacher Teacher[]
-  class   Classes[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isDeleted Boolean @default(false)
+  isDeleted     Boolean         @default(false)
+  ClassesDetail ClassesDetail[]
 }
 
 model Classroom {
@@ -154,46 +154,64 @@ model StudentSchedule {
   absentLetter String?
   isAbsent     Boolean @default(false)
 
-  date DateTime
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model MainSchedule {
-  id          Int      @unique @default(autoincrement())
-  uuid        String   @default(uuid())
-  name        String
+  id   Int    @unique @default(autoincrement())
+  uuid String @default(uuid())
+  name String
 
-  class       Classes[]
   classroomId Int
   classroom   Classroom @relation(fields: [classroomId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  isDeleted Boolean    @default(false)
+  isDeleted     Boolean         @default(false)
+  ClassesDetail ClassesDetail[]
+}
+
+model ClassesDetail {
+  id   Int    @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  mainScheduleId Int
+  mainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id])
+
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  scheduleOrderId Int
+  scheduleOrder   ScheduleOrderMasterOption @relation(fields: [scheduleOrderId], references: [id])
+  Classes         Classes[]
 }
 
 model Classes {
-  id             Int          @unique @default(autoincrement())
-  uuid           String       @default(uuid())
+  id   Int    @unique @default(autoincrement())
+  uuid String @default(uuid())
 
-  mainScheduleId Int
-  MainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id])
+  // tanggal kapan efektif
+  effectiveDate DateTime
+
+  // classCode adalah kode yang digunakan agar murid dapat melakukan absensi
+  classCode String
+
+  classesDetailId Int
+  classesDetail   ClassesDetail @relation(fields: [classesDetailId], references: [id])
+
+  StudentSchedule             StudentSchedule[]
+}
+
+model ScheduleOrderMasterOption {
+  id   Int    @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  name String
 
   startTime DateTime
   endTime   DateTime
 
-  date      DateTime
-  classCode String
-
-  Subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  isDeleted       Boolean           @default(false)
-  StudentSchedule StudentSchedule[]
+  ClassesDetail ClassesDetail[]
 }
