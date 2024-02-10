@@ -4,6 +4,8 @@ import prisma from "@/components/db/prisma"
 import {columns, ScheduleDataTableType} from "@/app/admin/schedule/columns";
 import {DataTable} from "@/components/web-component/DataTable";
 import {deleteSchedule} from "@/app/admin/schedule/action";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function SchedulePage() {
 
@@ -49,8 +51,6 @@ export default async function SchedulePage() {
             id: eachData.id,
             name: eachData.name,
             classroom: eachData.classroom.name,
-            startDate: eachData.startPeriod,
-            endDate: eachData.endPeriod,
             // @ts-ignore
             createdBy: auditData.find((data) => data.dataId === eachData.id).user.username,
             createdAt: eachData.createdAt
@@ -66,6 +66,15 @@ export default async function SchedulePage() {
                 </div>
                 <div>
                     <CreateScheduleForm classrooms={classroomsDataFiltered} />
+                </div>
+                <div>
+                    <Link href={'/admin/schedule/option/schedule-order'}>
+                        <Button
+                        variant={'outline'}>
+                            Atur Urutan Jadwal
+                        </Button>
+                    </Link>
+
                 </div>
             </div>
 
