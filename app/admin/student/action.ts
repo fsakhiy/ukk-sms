@@ -66,6 +66,7 @@ async function createNewStudent(values: z.infer<typeof studentFormSchema>) {
     })
 
     revalidatePath('/admin/student')
+    revalidatePath('/admin/class/about/*')
 }
 
 async function deleteStudentData(ids: number[]) {
@@ -92,8 +93,8 @@ async function deleteStudentData(ids: number[]) {
     ids.map(async (id) => {
         const auditInsertion = await prisma.auditLog.create({
             data: {
-                actionType: "CREATE",
-                tableName: "Classroom",
+                actionType: "DELETE",
+                tableName: "Student",
                 // @ts-ignore
                 userId: userDataFromDB.id,
                 dataId: id
@@ -101,6 +102,7 @@ async function deleteStudentData(ids: number[]) {
         })
     })
     revalidatePath('/admin/student')
+    revalidatePath('/admin/class/about/*')
 }
 
 export { createNewStudent, deleteStudentData }

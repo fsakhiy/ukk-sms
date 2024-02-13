@@ -36,72 +36,63 @@ import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import {createNewStudent} from "@/app/admin/student/action";
 import {Loader2} from "lucide-react";
-import {useState} from "react";
+import {createNewTeacher} from "@/app/admin/teacher/action";
 
-export const studentFormSchema = z.object({
+export const teacherFormSchema = z.object({
 
-    name: z.string(),
-    nis: z.string(),
-    nisn: z.string(),
-    classroom: z
-        .string({
-            required_error: "kelas wajib dipilih"
-
-        })
+    name: z.string({
+        required_error: "nama wajib diisi"
+    }).min(1),
+    subject: z.string({
+        required_error: "mapel wajib diisi"
+    }).min(1)
 })
 
-export interface ClassroomDataType {
-    classroomId: number
+export interface SubjectDataType {
+    subjectId: number
     name: string
 }
 
-interface ClassroomsType {
-    classrooms: ClassroomDataType[]
+interface SubjectType {
+    subjects: SubjectDataType[]
 }
 
-export default function CreateStudentForm({classrooms}: ClassroomsType) {
+export default function CreateTeacherForm({subjects}: SubjectType) {
     // ...
 
     const { toast } = useToast()
 
-    const form = useForm<z.infer<typeof studentFormSchema>>({
-        resolver: zodResolver(studentFormSchema),
+    const form = useForm<z.infer<typeof teacherFormSchema>>({
+        resolver: zodResolver(teacherFormSchema),
         defaultValues: {
             name: "",
-            nis: "",
-            nisn: "",
-            classroom: "",
+            subject: ""
         },
     })
 
     // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof studentFormSchema>) {
+    async function onSubmit(values: z.infer<typeof teacherFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         // console.log(values)
 
-        await createNewStudent(values)
+        await createNewTeacher(values)
         toast({ description: "data created"})
 
     }
 
-    const [open, setOpen] = useState(false)
-
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog>
             <Toaster />
-                    {/*<DialogTrigger>*/}
-                <Button variant={'outline'}
-                        onClick={() => {setOpen(!open)}}
-                >
-                    {/*<DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>*/}
-                    Tambah data murid baru
-                </Button>
-                    {/*</DialogTrigger>*/}
+            <DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>
+                {/*<Button>*/}
+                Tambah data guru mapel baru
+                {/*</Button>*/}
+            </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Tambah data siswa baru</DialogTitle>
+                    <DialogTitle>Tambah data guru mapel baru</DialogTitle>
                 </DialogHeader>
                 <div  className={'items-center justify-center flex flex-col space-y-10 w-full'}>
                     {/*<div className={'font-bold text-3xl'}>*/}
@@ -115,9 +106,9 @@ export default function CreateStudentForm({classrooms}: ClassroomsType) {
                                     name="name"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Nama Siswa</FormLabel>
+                                            <FormLabel>Nama Guru Mapel</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="john doe" {...field} />
+                                                <Input placeholder="Bahasa Inggris, Matematika, KRPL, dll..." {...field} />
                                             </FormControl>
                                             {/*<FormDescription>*/}
                                             {/*    This is your public display name.*/}
@@ -126,54 +117,23 @@ export default function CreateStudentForm({classrooms}: ClassroomsType) {
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
-                                    name="nis"
+                                    name="subject"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>NIS</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="15243" {...field} />
-                                            </FormControl>
-                                            {/*<FormDescription>*/}
-                                            {/*    This is your public display name.*/}
-                                            {/*</FormDescription>*/}
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="nisn"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>NISN</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="12345678" {...field} />
-                                            </FormControl>
-                                            {/*<FormDescription>*/}
-                                            {/*    This is your public display name.*/}
-                                            {/*</FormDescription>*/}
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="classroom"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Untuk Kelas</FormLabel>
+                                            <FormLabel>Mata Pelajaran</FormLabel>
                                             <FormControl>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                                                     <FormControl>
                                                         <SelectTrigger>
-                                                            <SelectValue placeholder={"pilih kelas"} />
+                                                            <SelectValue placeholder={"pilih mapel"} />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        {classrooms.map((classroom) => (
-                                                            <SelectItem key={classroom.classroomId} value={classroom.classroomId.toString()}>{classroom.name}</SelectItem>
+                                                        {subjects.map((subject) => (
+                                                            <SelectItem key={subject.subjectId} value={subject.subjectId.toString()}>{subject.name}</SelectItem>
                                                         ))}
                                                     </SelectContent>
                                                 </Select>

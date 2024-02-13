@@ -2,18 +2,17 @@
 
 import {ColumnDef} from "@tanstack/table-core";
 import {Checkbox} from "@/components/ui/checkbox";
-import {Button} from "@/components/ui/button";
-import {Info} from "lucide-react";
-import Link from "next/link";
 
-export type ClassroomDataTableType = {
+export type TeacherDataType = {
     id: number,
     name: string,
+    subject: string,
+    username: string,
     createdBy: string,
-    createdAt: Date
+    createdAt: Date,
 }
 
-export const columns: ColumnDef<ClassroomDataTableType>[] = [
+export const columns: ColumnDef<TeacherDataType>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -26,7 +25,7 @@ export const columns: ColumnDef<ClassroomDataTableType>[] = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({ row     }) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -42,7 +41,15 @@ export const columns: ColumnDef<ClassroomDataTableType>[] = [
     },
     {
         accessorKey: "name",
-        header: "Nama"
+        header: "Nama Guru"
+    },
+    {
+        accessorKey: "subject",
+        header: "Mata Pelajaran"
+    },
+    {
+        accessorKey: "username",
+        header: "Username"
     },
     {
         accessorKey: "createdBy",
@@ -51,21 +58,5 @@ export const columns: ColumnDef<ClassroomDataTableType>[] = [
     {
         accessorKey: "createdAt",
         header: "Waktu Pembuatan"
-    },
-    {
-        id: "goToDetail",
-        header: 'Actions',
-        cell: ({ row }) => (
-            <Link  href={`/admin/class/about/${row.original.id}`}>
-                <Button
-                    variant={'secondary'}
-                    // onClick={() => { row. }}
-
-                >
-                    <Info className={'mr-2 h-4 w-4'} />
-                    detail
-                </Button>
-            </Link>
-        )
     }
 ]

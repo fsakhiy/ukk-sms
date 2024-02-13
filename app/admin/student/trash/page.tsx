@@ -1,16 +1,12 @@
 "use server"
 
-import CreateStudentForm, {ClassroomDataType} from "@/app/admin/student/CreationForm";
-import prisma from '@/components/db/prisma'
-import CreateScheduleForm from "@/app/admin/schedule/CreationForm";
+import {ClassroomDataType} from "@/app/admin/student/CreationForm";
+import prisma from "@/components/db/prisma";
+import {columns, StudentDataTableType} from "@/app/admin/student/columns";
 import {DataTable} from "@/components/web-component/DataTable";
-import {columns} from "@/app/admin/student/columns";
-import {deleteSchedule} from "@/app/admin/schedule/action";
-import {StudentDataTableType} from "@/app/admin/student/columns";
-import {deleteStudentData} from "@/app/admin/student/action";
+import {recoverStudentData} from "@/app/admin/student/trash/action";
 
-export default async function StudentPage() {
-
+export default async function StudentTrashPage() {
     const modifiedClassrooms: ClassroomDataType[] = []
     const classrooms = await prisma.classroom.findMany()
     classrooms.map((classroom) => {
@@ -25,7 +21,7 @@ export default async function StudentPage() {
             classroom: true
         },
         where: {
-            isDeleted: false
+            isDeleted: true
         }
     })
     const modifiedStudentData: StudentDataTableType[] = []
@@ -33,7 +29,7 @@ export default async function StudentPage() {
     const auditData = await prisma.auditLog.findMany({
         where: {
             tableName: "Student",
-            actionType: "CREATE"
+            actionType: "DELETE"
         },
         select: {
             user: true,
@@ -61,29 +57,21 @@ export default async function StudentPage() {
             // @ts-ignore
             createdBy: auditData.find((data) => data.dataId === student.id).user.username,
             // @ts-ignore
-            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt
+            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt,
             // createdAt: student.createdAt
         })
     })
 
     return (
-        <div className={'p-10 w-full flex flex-col space-y-5 justify-center items-center'}>
-
-            <div className={'flex w-full items-center space-x-5'}>
-                <div className={'font-bold text-3xl'}>
-                    Data Murid Sekolah
-                </div>
-                <div>
-                    <CreateStudentForm classrooms={modifiedClassrooms}/>
-                </div>
+        <div className={'p-10'}>
+            <div>
+                <h1 className={'font-bold text-3xl'}>
+                    Sampah - Murid
+                </h1>
             </div>
-
-            <div className={'w-full'}>
-                <div className={'w-full'}>
-                    <DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData}/>
-                </div>
+            <div>
+                <DataTable columns={columns} data={modifiedStudentData} handler={recoverStudentData} />
             </div>
-
         </div>
     )
 }

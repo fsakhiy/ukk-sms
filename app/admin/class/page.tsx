@@ -1,5 +1,5 @@
 "use server"
-import CreateClassForm from "@/app/admin/class/CreationForm";
+import CreateClassForm, {SubjectDataType} from "@/app/admin/class/CreationForm";
 import prisma from '@/components/db/prisma'
 import {DataTable} from "@/components/web-component/DataTable";
 import {ClassroomDataTableType, columns} from "@/app/admin/class/columns";
@@ -40,16 +40,26 @@ export default async function ClassPage () {
         })
     ))
 
-    return (
-        <div className={'p-10 w-full flex flex-col space-y-5 justify-center items-center'}>
+    const subjects = await prisma.subject.findMany()
+    const modifiedSubjects: SubjectDataType[] = []
 
-            <div className={'flex w-full items-center space-x-5'}>
+    subjects.map((subject) => {
+        modifiedSubjects.push({
+            subjectId: subject.id,
+            name: subject.name
+        })
+    })
+
+    return (
+        <div className={'p-10 w-full flex flex-col space-y-5'}>
+
+            <div className={'flex items-center w-full space-x-5'}>
                 <div className={'font-bold text-3xl'}>
                     Data Kelas
                 </div>
-                <div className={''}>
-                    <CreateClassForm />
-                </div>
+                    <CreateClassForm subjects={modifiedSubjects} />
+                {/*<div className={'border p-5 rounded-lg'}>*/}
+                {/*</div>*/}
             </div>
 
             <div className={'w-full'}>

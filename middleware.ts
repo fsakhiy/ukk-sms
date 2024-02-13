@@ -1,9 +1,10 @@
+// "use server"
+
 import {NextRequest} from "next/server";
+import {getServerSession} from "next-auth";
+
+import prisma from '@/components/db/prisma'
 
 export { default } from "next-auth/middleware"
 
-export function checkAdmin (req: NextRequest){
-
-}
-
-export const config = { matcher: ["/rbac/test", "/admin/:path*"] }
+export const config = { matcher: ["/rbac/test", "/admin/:path*", "/student/:path*"] }

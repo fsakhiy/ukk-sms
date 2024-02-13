@@ -51,14 +51,13 @@ const handler = NextAuth({
                     id: user.id.toString(),
                     name: user.username,
                 }
-                
                 return sessionUser
             }
         })
     ],
     session: {
         strategy: "jwt",
-        maxAge: 10000
+        maxAge: 30000
     },
     // pages: {
     //     signIn: '/auth/login'
