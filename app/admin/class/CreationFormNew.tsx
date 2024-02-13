@@ -49,12 +49,6 @@ interface  SubmissionState {
 
 
 export default function NewClassCreationForm({scheduleData, subjectData}: SchedulesData) {
-    const subjectValidation = z.object({
-        id: z.string(),
-        name: z.string()
-    })
-
-
 
     const testState = ['first', 'second', 'third', 'fourth']
     const optionList = ['option 1', 'option 2', 'option 3']
@@ -66,11 +60,6 @@ export default function NewClassCreationForm({scheduleData, subjectData}: Schedu
             selectedValue: "",
         })
     })
-
-    const initialStatesObject = testState.reduce((acc, element) => {
-        acc[element] = useState('')
-        return acc
-    }, {} as Record<string, [string, React.Dispatch<React.SetStateAction<string>>]>)
 
     const printToConsole = () => {
 
