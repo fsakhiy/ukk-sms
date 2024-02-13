@@ -30,6 +30,7 @@ import {Toaster} from "@/components/ui/toaster";
 export interface ScheduleData {
     id: number,
     name: string
+    day: string
 }
 
 export interface SubjectData {
@@ -43,37 +44,35 @@ interface SchedulesData {
 }
 
 interface  SubmissionState {
-    id: string;
+    id: number;
     selectedValue: string;
 }
 
 
 export default function NewClassCreationForm({scheduleData, subjectData}: SchedulesData) {
 
-    const testState = ['first', 'second', 'third', 'fourth']
-    const optionList = ['option 1', 'option 2', 'option 3']
-
     const submissionState: SubmissionState[] = []
-    testState.map((id) => {
+
+    scheduleData.map((schedule) => {
         submissionState.push({
-            id: id,
-            selectedValue: "",
+            id: schedule.id,
+            selectedValue: ''
         })
     })
 
     const printToConsole = () => {
 
         if(submissionState.some(data => data.selectedValue === '')) {
-            toast({description: 'data cannot be empty', variant: 'destructive'})
+            toast({description: 'data tidak boleh kosong', variant: 'destructive'})
             return
         }
 
         console.log(submissionState)
         // console.log(scheduleData)
-        toast({description: "data created"})
+        toast({description: "data dibuat"})
     }
 
-    const onChangeFunction = (id:string, value: string) => {
+    const onChangeFunction = (id: number, value: string) => {
         // @ts-ignore
         submissionState.find((data) => data.id === id).selectedValue = value
     }
@@ -92,27 +91,30 @@ export default function NewClassCreationForm({scheduleData, subjectData}: Schedu
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Buat Kelas Baru</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                    </DialogDescription>
+                    {/*<DialogDescription>*/}
+                    {/*    This action cannot be undone. This will permanently delete your account*/}
+                    {/*    and remove your data from our servers.*/}
+                    {/*</DialogDescription>*/}
                 </DialogHeader>
 
                 <div className={'flex flex-col gap-5'}>
-                    <div className={'grid grid-cols-3 gap-3'}>
-                        {testState.map((element) => (
-                            <div key={element}>
-                                <h2>{element}</h2>
+                    <div className={'grid grid-cols-2 gap-3'}>
+                        {scheduleData.map((element) => (
+                            <div key={element.id}>
+                                <h2>{element.day} - {element.name}</h2>
                                 <Select onValueChange={(value) => {
-                                    onChangeFunction(element, value)
+                                    onChangeFunction(element.id, value)
                                 }}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a verified email to display"/>
+                                        <SelectValue placeholder="pilih pelajaran"/>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                        <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                        <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                        {subjectData.map((subject) => (
+
+                                            <SelectItem key={subject.id} value={subject.id.toString()}>{subject.name}</SelectItem>
+                                        ))}
+                                        {/*<SelectItem value="m@google.com">m@google.com</SelectItem>*/}
+                                        {/*<SelectItem value="m@support.com">m@support.com</SelectItem>*/}
                                     </SelectContent>
                                 </Select>
                             </div>
