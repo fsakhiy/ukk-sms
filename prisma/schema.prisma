@@ -164,7 +164,7 @@ model MainSchedule {
   name String
 
   classroomId Int
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -178,7 +178,7 @@ model ClassesDetail {
   uuid String @unique @default(uuid())
 
   mainScheduleId Int
-  mainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id])
+  mainSchedule   MainSchedule @relation(fields: [mainScheduleId], references: [id], onDelete: Cascade)
 
   subjectId Int
   subject   Subject @relation(fields: [subjectId], references: [id])
@@ -199,9 +199,9 @@ model Classes {
   classCode String
 
   classesDetailId Int
-  classesDetail   ClassesDetail @relation(fields: [classesDetailId], references: [id])
+  classesDetail   ClassesDetail @relation(fields: [classesDetailId], references: [id], onDelete: Cascade)
 
-  StudentSchedule             StudentSchedule[]
+  StudentSchedule StudentSchedule[]
 }
 
 enum Day {
