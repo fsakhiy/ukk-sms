@@ -4,6 +4,7 @@ import prisma from '@/components/db/prisma'
 import {columns, ScheduleOrderDataTableType} from "@/app/admin/schedule/option/schedule-order/columns";
 import {DataTable} from "@/components/web-component/DataTable";
 import {DummyHandler} from "@/app/admin/schedule/option/schedule-order/action";
+import CreateNewScheduleOrder from "@/app/admin/schedule/option/schedule-order/CreationForm";
 
 export default async function ScheduleOrderMasterOptionPage() {
     const optionDetail = await prisma.scheduleOrderMasterOption.findMany()
@@ -61,8 +62,9 @@ export default async function ScheduleOrderMasterOptionPage() {
 
     return (
         <div className={'p-10 flex flex-col space-y-10'}>
-            <div >
+            <div className={'flex gap-3 items-center'}>
                 <h1 className={'font-bold text-3xl'}>Opsi Urutan Jadwal</h1>
+                <CreateNewScheduleOrder />
             </div>
             <div className={'flex flex-col space-y-5'}>
                 <div>
