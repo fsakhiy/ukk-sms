@@ -6,6 +6,7 @@ import prisma from '@/components/db/prisma'
 import {getServerSession} from "next-auth";
 import {revalidatePath} from "next/cache";
 import * as bcrypt from 'bcrypt'
+import {inngest} from "@/components/inngest/client";
 
 async function createNewStudent(values: z.infer<typeof studentFormSchema>) {
     const sessionData = await getServerSession()
@@ -62,6 +63,18 @@ async function createNewStudent(values: z.infer<typeof studentFormSchema>) {
             // @ts-ignore
             userId: userDataFromDB.id,
             dataId: userData.id
+        }
+    })
+
+    const studentScheduleGeneration = await inngest.send({
+        name: "admin/student.schedule.generate",
+        data: {
+            studentId: studentData.id,
+            classroomId: +values.classroom,
+            period: {
+                startFrom: new Date(),
+                endIn: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+            }
         }
     })
 
