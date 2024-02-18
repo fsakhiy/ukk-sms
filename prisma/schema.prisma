@@ -95,7 +95,9 @@ model Student {
 
   isDeleted Boolean @default(false)
 
-  StudentSchedule StudentSchedule[]
+  StudentSchedule      StudentSchedule[]
+  StudentClassPresence StudentClassPresence[]
+  StudentPresence      StudentPresence[]
 }
 
 model Teacher {
@@ -201,7 +203,40 @@ model Classes {
   classesDetailId Int
   classesDetail   ClassesDetail @relation(fields: [classesDetailId], references: [id], onDelete: Cascade)
 
-  StudentSchedule StudentSchedule[]
+  StudentSchedule      StudentSchedule[]
+  StudentClassPresence StudentClassPresence[]
+}
+
+enum StudentPresnceStatus {
+  NOT_YET
+  LATE
+  ON_TIME
+}
+
+model StudentClassPresence {
+  id   Int    @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  logTime DateTime @default(now())
+
+  status StudentPresnceStatus @default(NOT_YET)
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  classesId Int
+  classes   Classes @relation(fields: [classesId], references: [id])
+}
+
+model StudentPresence {
+  id   Int    @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  effectiveDate DateTime
+  logTime       DateTime?
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
 }
 
 enum Day {
