@@ -40,14 +40,15 @@ import {useState} from "react";
 
 export const studentFormSchema = z.object({
 
-    name: z.string(),
-    nis: z.string(),
-    nisn: z.string(),
+    name: z.string().min(1),
+    nis: z.string().min(1),
+    nisn: z.string().min(1),
     classroom: z
         .string({
             required_error: "kelas wajib dipilih"
 
         })
+        .min(1)
 })
 
 export interface ClassroomDataType {
@@ -85,19 +86,15 @@ export default function CreateStudentForm({classrooms}: ClassroomsType) {
 
     }
 
-    const [open, setOpen] = useState(false)
-
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog>
             <Toaster />
                     {/*<DialogTrigger>*/}
-                <Button variant={'outline'}
-                        onClick={() => {setOpen(!open)}}
-                >
-                    {/*<DialogTrigger className={'p-3 rounded-lg outline outline-gray-200 hover:bg-gray-200 outline-1'}>*/}
+                    <DialogTrigger asChild>
+                <Button variant={'outline'} >
                     Tambah data murid baru
                 </Button>
-                    {/*</DialogTrigger>*/}
+                    </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>

@@ -33,7 +33,7 @@ export default async function SchedulePage() {
     })
     const auditData = await prisma.auditLog.findMany({
         where: {
-            tableName: "Schedule",
+            tableName: "MainSchedule",
             actionType: "CREATE"
         },
         select: {
