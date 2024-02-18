@@ -40,14 +40,15 @@ import {useState} from "react";
 
 export const studentFormSchema = z.object({
 
-    name: z.string(),
-    nis: z.string(),
-    nisn: z.string(),
+    name: z.string().min(1),
+    nis: z.string().min(1),
+    nisn: z.string().min(1),
     classroom: z
         .string({
             required_error: "kelas wajib dipilih"
 
         })
+        .min(1)
 })
 
 export interface ClassroomDataType {
