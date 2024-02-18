@@ -195,7 +195,7 @@ model Classes {
   uuid String @default(uuid())
 
   // tanggal kapan efektif
-  effectiveDate DateTime
+  effectiveDate DateTime @db.Date
 
   // classCode adalah kode yang digunakan agar murid dapat melakukan absensi
   classCode String
@@ -232,7 +232,9 @@ model StudentPresence {
   id   Int    @unique @default(autoincrement())
   uuid String @unique @default(uuid())
 
-  effectiveDate DateTime
+  status StudentPresnceStatus @default(NOT_YET)
+
+  effectiveDate DateTime @db.Date
   logTime       DateTime?
 
   studentId Int
