@@ -1,6 +1,7 @@
 "use client"
 
 import {Button} from "@/components/ui/button";
+import {parsePresenceStatus} from "@/components/sharedFunction/functions";
 
 export interface StudenDailyPresenceData {
     studentId: number
@@ -10,30 +11,6 @@ export interface StudenDailyPresenceData {
     handler: (studentId: number) => Promise<void>
 }
 
-const parsePresenceStatus = (status: StudenDailyPresenceData["status"]): string => {
-    let parsedPresenceStatus: string
-    
-    switch(status) {
-        
-        case "LATE":
-            parsedPresenceStatus = "Terlambat"
-            break;
-            
-        case "NOT_YET":
-            parsedPresenceStatus = "Belum Abasen"
-            break;
-            
-        case "ON_TIME":
-            parsedPresenceStatus = "Tepat Waktu"
-            break;
-            
-        default:
-            parsedPresenceStatus = "Tidak Ada Data"
-            break;
-    }
-    
-    return parsedPresenceStatus
-}
 
 export default function StudentDailyPresence({studentId, name, status, presenceTime, handler}: StudenDailyPresenceData) {
     return (

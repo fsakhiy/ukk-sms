@@ -1,3 +1,5 @@
+import {StudenDailyPresenceData} from "@/components/ui/student/presence";
+
 function generateRandomString(length: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomString = '';
@@ -34,4 +36,30 @@ function generateDatesInRange(startDate: Date, endDate: Date): Date[] {
     return datesArray;
 }
 
-export { generateDatesInRange, generateRandomString }
+const parsePresenceStatus = (status: StudenDailyPresenceData["status"]): string => {
+    let parsedPresenceStatus: string
+
+    switch(status) {
+
+        case "LATE":
+            parsedPresenceStatus = "Terlambat"
+            break;
+
+        case "NOT_YET":
+            parsedPresenceStatus = "Belum Absen"
+            break;
+
+        case "ON_TIME":
+            parsedPresenceStatus = "Tepat Waktu"
+            break;
+
+        default:
+            parsedPresenceStatus = "Tidak Ada Data"
+            break;
+    }
+
+    return parsedPresenceStatus
+}
+
+
+export { generateDatesInRange, generateRandomString, parsePresenceStatus }
