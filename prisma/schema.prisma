@@ -239,6 +239,8 @@ model StudentPresence {
 
   studentId Int
   student   Student @relation(fields: [studentId], references: [id])
+
+  @@unique([effectiveDate, studentId])
 }
 
 enum Day {
