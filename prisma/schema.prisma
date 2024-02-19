@@ -217,7 +217,8 @@ model StudentClassPresence {
   id   Int    @unique @default(autoincrement())
   uuid String @unique @default(uuid())
 
-  logTime DateTime @default(now())
+  logTime DateTime?
+  effectiveDate DateTime
 
   status StudentPresnceStatus @default(NOT_YET)
 
