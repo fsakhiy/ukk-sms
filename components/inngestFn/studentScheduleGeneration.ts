@@ -37,6 +37,16 @@ export const generateStudentSchedule = inngest.createFunction({id: 'student-sche
         })
     })
 
+    classes.map(async (date) => {
+        const classPresence = await prisma.studentClassPresence.create({
+            data: {
+                studentId: event.data.studentId,
+                effectiveDate: date.effectiveDate,
+                classesId: date.id
+            }
+        })
+    })
+
     // return { mainSchedule: mainSchedules, classedDetail: classesDetail, classes: classes }
     // return { ids: classeDetailIds, classes: classes }
 
