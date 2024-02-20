@@ -26,7 +26,7 @@ export default function StudentDailyPresence({studentId, name, status, presenceT
                         }}
                     >Absen Dulu</Button>
                 </div>
-                : <div>kamu sudah absen - {presenceTime?.toLocaleDateString()}</div> }
+                : <div>kamu sudah absen - {presenceTime?.toString()}</div> }
         </div>
     )
 }
