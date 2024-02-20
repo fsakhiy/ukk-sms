@@ -36,6 +36,38 @@ function generateDatesInRange(startDate: Date, endDate: Date): Date[] {
     return datesArray;
 }
 
+const parseScheduleDay = (day: string): string => {
+    let parsedDay: string
+
+    switch(day) {
+        case "MONDAY":
+            parsedDay = "Senin"
+            break;
+
+        case "TUESDAY":
+            parsedDay = "Selasa"
+            break;
+
+        case "WEDNESDAY":
+            parsedDay = "Rabu"
+            break;
+
+        case "THURSDAY":
+            parsedDay = "Kamis"
+            break;
+
+        case "FRIDAY":
+            parsedDay = "Jumat"
+            break;
+
+        default:
+            parsedDay = "hari invalid"
+            break;
+    }
+
+    return parsedDay
+}
+
 const parsePresenceStatus = (status: StudenDailyPresenceData["status"]): string => {
     let parsedPresenceStatus: string
 
@@ -62,4 +94,4 @@ const parsePresenceStatus = (status: StudenDailyPresenceData["status"]): string 
 }
 
 
-export { generateDatesInRange, generateRandomString, parsePresenceStatus }
+export { generateDatesInRange, generateRandomString, parsePresenceStatus, parseScheduleDay }
