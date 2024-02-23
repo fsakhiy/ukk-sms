@@ -6,14 +6,17 @@ import LoginButton from "@/components/web-component/LoginButton";
 import StudentDailyPresence from "@/components/ui/student/presence";
 import {StudentPresnceStatus} from "@prisma/client";
 import {doDailyPresence} from "@/app/student/action";
+import Image from "next/image";
+import time from "@/components/svg/time.svg"
 
 export default async function StudentHomePage() {
 
     const userData = await getServerSession()
 
-    if(userData) {
+    if (userData) {
         const userDataFromDB = await prisma.user.findUnique({
             where: {
+                // @ts-ignore
                 username: userData.user.name
             },
         })
@@ -41,21 +44,28 @@ export default async function StudentHomePage() {
         console.log(presenceData)
 
         return (
-            <div className={'flex flex-col gap-5 p-10'}>
-                <h1 className={'font-bold text-3xl'}>{studentData?.name} - {studentData?.classroom?.name}</h1>
-                <div>
+            <div className={'flex flex-col gap-5 items-center w-full mt-auto max-h-fit '}>
+                <div className="max-w-lg">
+                    <div className={'p-5'}>
+                        <Image src={time} alt={''} className={'w-full'}/>
+                        <h1 className={'font-bold text-3xl'}>{studentData?.name} - {studentData?.classroom?.name}</h1>
+                    </div>
+                    <div className={'flex w-full flex-col justify-end items-center flex-grow border-t-2 p-5 max-w-lg'}>
 
-                    {presenceData ?
-                        <StudentDailyPresence studentId={studentData.id} name={studentData?.name} status={presenceData?.status as StudentPresnceStatus} presenceTime={presenceData.logTime} handler={doDailyPresence} />
-                        :
-                        'tidak ada kbm untuk hari ini'}
+                        {presenceData ?
+                            <StudentDailyPresence studentId={studentData?.id ?? 0} name={studentData?.name}
+                                                  status={presenceData?.status as StudentPresnceStatus}
+                                                  presenceTime={presenceData.logTime} handler={doDailyPresence}/>
+                            :
+                            'tidak ada kbm untuk hari ini'}
+                    </div>
                 </div>
             </div>
         )
     } else {
         return (
             <div>
-                <LoginButton />
+                <LoginButton/>
             </div>
         )
     }

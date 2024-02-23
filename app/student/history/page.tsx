@@ -36,13 +36,14 @@ export default async function StudentDailyPresenceHistory() {
     dailyPresenceData.map((data, index) => {
         presenceDataModified.push({
             id: index + 1,
-            date: data.effectiveDate,
-            status: parsePresenceStatus(data.status)
+            date: data.effectiveDate.toDateString(),
+            status: parsePresenceStatus(data.status),
+            logTime: data.logTime?.toTimeString().split(' ')[0] ?? ''
         })
     })
 
     return (
-        <div className={'p-10 flex flex-col'}>
+        <div className={'pl-5 lg:pl-10 pr-5 lg:pr-10 pt-10 flex flex-col'}>
             <h1 className={'font-bold text-3xl'}>Data Presensi - {userDataFromDB.student.name}</h1>
             <div>
 

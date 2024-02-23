@@ -3,14 +3,14 @@
 import {ColumnDef} from "@tanstack/table-core";
 import {Checkbox} from "@/components/ui/checkbox";
 
-export type DailyStudentPresenceDataTableType = {
+export type StudentScheduleDataType = {
     id: number,
-    date: String,
-    status: string,
-    logTime: string
+    subject: string,
+    startTime: string,
+    endTime: string
 }
 
-export const columns: ColumnDef<DailyStudentPresenceDataTableType>[] = [
+export const columns: ColumnDef<StudentScheduleDataType>[] = [
     // {
     //     id: "select",
     //     header: ({ table }) => (
@@ -33,20 +33,20 @@ export const columns: ColumnDef<DailyStudentPresenceDataTableType>[] = [
     //     enableSorting: false,
     //     enableHiding: false,
     // },
+    // {
+    //     accessorKey: "id",
+    //     header: "Id"
+    // },
     {
-        accessorKey: "id",
-        header: "Id"
+        accessorKey: "subject",
+        header: "Mata Pelajaran"
     },
     {
-        accessorKey: "date",
-        header: "Tanggal"
+        accessorKey: "startTime",
+        header: "Waktu Mulai"
     },
     {
-        accessorKey: "status",
-        header: "Status Presensi"
+        accessorKey: "endTime",
+        header: "Waktu Selesai"
     },
-    {
-        accessorKey: "logTime",
-        header: "Waktu Masuk"
-    }
 ]

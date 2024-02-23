@@ -218,7 +218,7 @@ model StudentClassPresence {
   uuid String @unique @default(uuid())
 
   logTime DateTime?
-  effectiveDate DateTime
+  effectiveDate DateTime @db.Date()
 
   status StudentPresnceStatus @default(NOT_YET)
 
