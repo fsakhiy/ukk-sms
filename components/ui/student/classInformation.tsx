@@ -40,7 +40,7 @@ export default function ClassInformation({id, classId, name, startFrom, endIn, t
             </div>
 
             {presenceStatus != "NOT_YET" ?
-            <div className={'text-center font-bold'}>kamu sudah absen</div>
+            <div className={'text-center md:ml-auto md:text-left font-bold'}>kamu sudah absen</div>
                 :
             <Button
                 onClick={handlePresence}
