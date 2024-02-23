@@ -2,6 +2,7 @@
 import {getServerSession} from "next-auth";
 import LogoutButton from "@/components/web-component/LogoutButton";
 import prisma from "@/components/db/prisma";
+import StudentNavbar from "@/components/ui/student/NavBar";
 
 export default async function AdminPageLayout({
                                                   children, // will be a page or nested layout
@@ -33,21 +34,27 @@ export default async function AdminPageLayout({
         )
     } else {
         return (
-            <section>
+            <section className={'flex flex-col min-h-screen'}>
                 {/* Include shared UI here e.g. a header or sidebar */}
 
                 <nav className={'p-2 flex items-center w-full space-x-5'}>
-                <div>
+                {/*<div>*/}
 
-                        Selamat datang, <span>{userSession.user.name}</span>!
+                        {/*Selamat datang, <span>{userSession.user.name}</span>!*/}
+                    {/*<nav className="p-2 flex items-center w-full space-x-5">*/}
+                        <StudentNavbar name={userSession?.user?.name as string} signOutText={'hello'} />
+                    {/*</nav>*/}
 
-                    </div>
-                    <div className={'flex justify-end'}>
-                        <LogoutButton text={'logout'} />
-                    </div>
+
+                    {/*</div>*/}
+                    {/*<div className={'flex justify-end'}>*/}
+                    {/*    <LogoutButton text={'logout'} />*/}
+                    {/*</div>*/}
                 </nav>
 
-                {children}
+                <div className={'flex flex-col flex-grow'}>
+                    {children}
+                </div>
             </section>
         )
     }
