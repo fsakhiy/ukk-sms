@@ -62,7 +62,7 @@ export default async function ClassPresence() {
 
             <div className={'flex flex-col gap-3'}>
                 {studentPresenceToday.map((detail) => (
-                    <ClassInformation key={detail.id} id={detail.id} teacher={detail.classes.classesDetail.subject.teacher[0].name} startFrom={detail.classes.classesDetail.scheduleOrder.startTime} endIn={detail.classes.classesDetail.scheduleOrder.endTime} name={detail.classes.classesDetail.subject.name} presenceStatus={parsePresenceStatus(detail.status)} />
+                    <ClassInformation key={detail.id} id={detail.id} classId={detail.id} teacher={detail.classes.classesDetail.subject.teacher[0].name} startFrom={detail.classes.classesDetail.scheduleOrder.startTime} endIn={detail.classes.classesDetail.scheduleOrder.endTime} name={detail.classes.classesDetail.subject.name} presenceStatus={detail.status} />
                 ))}
             </div>
 
