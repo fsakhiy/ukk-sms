@@ -5,8 +5,9 @@ import {Checkbox} from "@/components/ui/checkbox";
 
 export type DailyStudentPresenceDataTableType = {
     id: number,
-    date: Date,
-    status: string
+    date: String,
+    status: string,
+    logTime: string
 }
 
 export const columns: ColumnDef<DailyStudentPresenceDataTableType>[] = [
@@ -43,5 +44,9 @@ export const columns: ColumnDef<DailyStudentPresenceDataTableType>[] = [
     {
         accessorKey: "status",
         header: "Status Presensi"
+    },
+    {
+        accessorKey: "logTime",
+        header: "Waktu Masuk"
     }
 ]
