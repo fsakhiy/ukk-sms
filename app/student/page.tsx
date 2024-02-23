@@ -16,6 +16,7 @@ export default async function StudentHomePage() {
     if (userData) {
         const userDataFromDB = await prisma.user.findUnique({
             where: {
+                // @ts-ignore
                 username: userData.user.name
             },
         })
@@ -52,7 +53,7 @@ export default async function StudentHomePage() {
                     <div className={'flex w-full flex-col justify-end items-center flex-grow border-t-2 p-5 max-w-lg'}>
 
                         {presenceData ?
-                            <StudentDailyPresence studentId={studentData.id} name={studentData?.name}
+                            <StudentDailyPresence studentId={studentData?.id ?? 0} name={studentData?.name}
                                                   status={presenceData?.status as StudentPresnceStatus}
                                                   presenceTime={presenceData.logTime} handler={doDailyPresence}/>
                             :
