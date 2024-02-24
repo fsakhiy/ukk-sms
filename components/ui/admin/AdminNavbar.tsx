@@ -7,39 +7,13 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
+    NavigationMenuTrigger, navigationMenuTriggerStyle,
     NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
-import Link from "next/link";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
-
-// interface adminNavbar {
-//     name: string
-// }
-//
-// export default function AdminNavbar() {
-//     return (
-//         <NavigationMenu>
-//             <NavigationMenuList>
-//                 <NavigationMenuItem>
-//                     <NavigationMenuTrigger>Murid</NavigationMenuTrigger>
-//                     <NavigationMenuContent>
-//                         <Link href="/admin/student" legacyBehavior passHref>
-//                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-//                                 Data Murid
-//                             </NavigationMenuLink>
-//                         </Link>
-//                     </NavigationMenuContent>
-//                 </NavigationMenuItem>
-//
-//             </NavigationMenuList>
-//         </NavigationMenu>
-//     )
-// }
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-
+import Link from "next/link"
 
 const studentsList: { title: string; href: string; description: string }[] = [
     {
@@ -48,6 +22,19 @@ const studentsList: { title: string; href: string; description: string }[] = [
         description:
             "Data Semua Murid",
     },
+    {
+        title: "Data Presensi Murid",
+        href: "/admin/student/presence",
+        description:
+            "data presensi semua murid hari ini (per hari)",
+    },
+{
+        title: "Riwayat Presensi Murid",
+        href: "/admin/student/presence/history",
+        description:
+            "data riwayat seluruh presensi murid (per hari)",
+    },
+
 ]
 
 const classList: { title: string; href: string; description: string }[] = [
@@ -96,7 +83,16 @@ export default function AdminNavbar() {
     return (
         <NavigationMenu className={'flex flex-row items-center gap-5 p-3'}>
 
-            <NavigationMenuList className={'flex'}>
+            <NavigationMenuList>
+
+                <NavigationMenuItem>
+                    <Link href="/admin" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Dashboard
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+
 
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>Murid</NavigationMenuTrigger>
