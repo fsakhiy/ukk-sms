@@ -57,8 +57,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 <div className={'grid grid-cols-2 gap-2'}>
                     <InformationCounter name={'total murid'} count={classes?.StudentClassPresence.length ?? 0} />
                     <InformationCounter name={'yang sudah melakukan presensi'} count={classes?.StudentClassPresence.filter((detail) => detail.status != "NOT_YET").length ?? 0} />
-                    <InformationCounter name={'murid yang terlambat'} count={classes?.StudentClassPresence.filter((detail) => detail.status != "NOT_YET").length ?? 0} />
-                    <InformationCounter name={'murid yang tepat waktu'} count={classes?.StudentClassPresence.filter((detail) => detail.status != "NOT_YET").length ?? 0} />
+                    <InformationCounter name={'murid yang terlambat'} count={classes?.StudentClassPresence.filter((detail) => detail.status == "LATE").length ?? 0} />
+                    <InformationCounter name={'murid yang tepat waktu'} count={classes?.StudentClassPresence.filter((detail) => detail.status == "ON_TIME").length ?? 0} />
                 </div>
 
                 <div className={'flex flex-col'}>
