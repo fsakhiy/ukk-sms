@@ -1,11 +1,10 @@
 "use server"
 
-import {DataTable} from "@/components/web-component/DataTable";
 import {columns, StudentClassPresenceDataTableType} from "@/app/student/class/history/columns";
-import {deletePresenceData} from "@/app/student/class/history/action";
 import {getServerSession} from "next-auth";
 import prisma from "@/components/db/prisma";
 import {parsePresenceStatus, parseScheduleDay} from "@/components/sharedFunction/functions";
+import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
 
 export default async function StudentClassPresenceHistory () {
     const userData = await getServerSession()
@@ -53,7 +52,7 @@ export default async function StudentClassPresenceHistory () {
     return(
         <div className={'p-10 w-full flex flex-col'}>
             <h1 className={'font-bold text-3xl'}>Riwayat Presensi</h1>
-            <DataTable columns={columns} data={finalClassPresenceData} handler={deletePresenceData} />
+            <DataTableWODelete columns={columns} data={finalClassPresenceData} />
         </div>
     )
 }
