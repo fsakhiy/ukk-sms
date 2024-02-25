@@ -53,17 +53,20 @@ export default async function ClassPresence() {
     })
 
     return (
-        <div className={'pt-10 pr-5 pl-5 lg:pr-10 lg:pl-10 flex flex-col gap-10'}>
+        // <div className={'pt-10 pr-5 pl-5 lg:pr-10 lg:pl-10 flex flex-col gap-10'}>
+        <div className={'pt-10 pb-10 pr-3 pl-3 lg:pr-10 lg:pl-10 flex flex-col items-center w-full'}>
             {/*hello {userData?.user?.name}*/}
-            <div className={'flex flex-col'}>
-                <h1 className={'font-bold text-3xl'}>Jadwal Pelajaran Hari Ini</h1>
-                <p className={'font-bold text-xl'}>{mainSchedule?.classroom.name}</p>
-            </div>
+            <div className={'max-w-lg w-full flex flex-col gap-5'}>
+                <div className={'flex flex-col'}>
+                    <h1 className={'font-bold text-3xl'}>Jadwal Pelajaran Hari Ini</h1>
+                    <p className={'font-bold text-xl'}>{mainSchedule?.classroom.name}</p>
+                </div>
 
-            <div className={'flex flex-col gap-3'}>
-                {studentPresenceToday.map((detail) => (
-                    <ClassInformation key={detail.id} id={detail.id} classId={detail.id} teacher={detail.classes.classesDetail.subject.teacher[0].name} startFrom={detail.classes.classesDetail.scheduleOrder.startTime} endIn={detail.classes.classesDetail.scheduleOrder.endTime} name={detail.classes.classesDetail.subject.name} presenceStatus={detail.status} />
-                ))}
+                <div className={'flex flex-col gap-3'}>
+                    {studentPresenceToday.map((detail) => (
+                        <ClassInformation key={detail.id} id={detail.id} classId={detail.id} teacher={detail.classes.classesDetail.subject.teacher?.name ?? ""} startFrom={detail.classes.classesDetail.scheduleOrder.startTime} endIn={detail.classes.classesDetail.scheduleOrder.endTime} name={detail.classes.classesDetail.subject.name} presenceStatus={detail.status} />
+                    ))}
+                </div>
             </div>
 
         </div>
