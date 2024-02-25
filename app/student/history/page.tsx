@@ -4,11 +4,7 @@ import {getServerSession} from "next-auth";
 import prisma from '@/components/db/prisma'
 import {parsePresenceStatus} from "@/components/sharedFunction/functions";
 import {columns, DailyStudentPresenceDataTableType} from "@/app/student/history/columns";
-import {DataTable} from "@/components/web-component/DataTable";
-import {dummyHandler} from "@/app/student/history/action";
-import StudentDailyPresence from "@/components/ui/student/presence";
-import {StudentPresnceStatus} from "@prisma/client";
-import {doDailyPresence} from "@/app/student/action";
+import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
 
 export default async function StudentDailyPresenceHistory() {
     const userData = await getServerSession()
@@ -44,12 +40,12 @@ export default async function StudentDailyPresenceHistory() {
 
     return (
         <div className={'pl-5 lg:pl-10 pr-5 lg:pr-10 pt-10 flex flex-col'}>
-            <h1 className={'font-bold text-3xl'}>Data Presensi - {userDataFromDB.student.name}</h1>
+            <h1 className={'font-bold text-3xl'}>Data Presensi - {userDataFromDB?.student.name}</h1>
             <div>
 
             </div>
             <div>
-                <DataTable columns={columns} data={presenceDataModified} handler={dummyHandler} />
+                <DataTableWODelete columns={columns} data={presenceDataModified} />
             </div>
         </div>
     )

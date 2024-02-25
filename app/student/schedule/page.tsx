@@ -1,11 +1,9 @@
 "use server"
 
 import prisma from '@/components/db/prisma'
-import { $Enums } from '@prisma/client';
 import {getServerSession} from "next-auth";
 import {columns, StudentScheduleDataType} from "@/app/student/schedule/columns";
-import {DataTable} from "@/components/web-component/DataTable";
-import {dummyScheduleFunction} from "@/app/student/schedule/action";
+import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
 
 export default async function StudentSchedulePage() {
     const userData = await getServerSession()
@@ -109,23 +107,23 @@ export default async function StudentSchedulePage() {
             <h1 className={'font-bold text-3xl'}>Jadwal Pembelajaran - {userDataFromDB?.student?.classroom.name}</h1>
             <div>
                 <p className={'font-bold text-xl'}>Senin</p>
-                <DataTable columns={columns} data={scheduleMonday} handler={dummyScheduleFunction} />
+                <DataTableWODelete columns={columns} data={scheduleMonday} />
             </div>
             <div>
                 <p className={'font-bold text-xl'}>Selasa</p>
-                <DataTable columns={columns} data={scheduleTuesday} handler={dummyScheduleFunction} />
+                <DataTableWODelete columns={columns} data={scheduleTuesday}  />
             </div>
             <div>
                 <p className={'font-bold text-xl'}>Rabu</p>
-                <DataTable columns={columns} data={scheduleWednesday} handler={dummyScheduleFunction} />
+                <DataTableWODelete columns={columns} data={scheduleWednesday}  />
             </div>
             <div>
                 <p className={'font-bold text-xl'}>Kamis</p>
-                <DataTable columns={columns} data={scheduleThursday} handler={dummyScheduleFunction} />
+                <DataTableWODelete columns={columns} data={scheduleThursday}  />
             </div>
             <div>
                 <p className={'font-bold text-xl'}>Jumat</p>
-                <DataTable columns={columns} data={scheduleFriday} handler={dummyScheduleFunction} />
+                <DataTableWODelete columns={columns} data={scheduleFriday}  />
             </div>
         </div>
     )
