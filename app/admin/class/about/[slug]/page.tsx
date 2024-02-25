@@ -3,10 +3,16 @@ import prisma from "@/components/db/prisma"
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import CreateStudentForm, {ClassroomDataType} from "@/app/admin/student/CreationForm";
-import {columns, StudentDataInClassroom} from "@/app/admin/class/about/[slug]/columns";
+import {
+    ClassDataInClassroom,
+    columns,
+    StudentDataInClassroom,
+    subjectColumn
+} from "@/app/admin/class/about/[slug]/columns";
 import {DataTable} from "@/components/web-component/DataTable";
 import {revalidatePath} from "next/cache";
 import {deleteStudentData} from "@/app/admin/student/action";
+import {deleteScheduleData} from "@/app/admin/class/about/[slug]/action";
 
 export default async function AboutClassroom({ params }: { params: { slug: string } }) {
     const classroomData = await prisma.classroom.findUnique({
@@ -73,6 +79,31 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
             })
         })
 
+        const mainScheduleData = await prisma.mainSchedule.findFirst({
+            where: {
+                classroomId: classroomData.id
+            },
+        })
+
+        const classDetailData = await prisma.classesDetail.findMany({
+            where: {
+                mainScheduleId: mainScheduleData?.id
+            },
+            include: {
+                scheduleOrder: true,
+                subject: true
+            }
+        })
+
+        const scheduleDataForTable: ClassDataInClassroom[] = []
+        classDetailData.map((data) => {
+            scheduleDataForTable.push({
+                id: data.id,
+                subject: data.subject.name,
+                day: data.scheduleOrder.day,
+                scheduleOrder: data.scheduleOrder.name
+            })
+        })
 
         return (
             <div className={'p-10 flex w-full flex-col space-y-5'}>
@@ -91,6 +122,19 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
                     <div>
                         <DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData} />
                     </div>
+
+                    <h2 className={'font-semibold text-xl'}>Data jadwal kelas:</h2>
+                    <div>
+
+                        <DataTable columns={subjectColumn} data={scheduleDataForTable} handler={deleteScheduleData} />
+
+                        {/*<ul>*/}
+                        {/*    {classDetailData.map((data) => (*/}
+                        {/*        <li key={data.id}>{data.subject.name} - {data.scheduleOrder.day} - {data.scheduleOrder.name}</li>*/}
+                        {/*    ))}*/}
+                        {/*</ul>*/}
+                    </div>
+
                     <div className={'flex flex-col'}>
                         <span>
                             mau menambah data murid baru? <Link href={'/admin/student'} className={'text-blue-600 hover:text-blue-800 underline'}>Klik Disini!</Link>
