@@ -2,6 +2,7 @@
 
 import {revalidatePath} from "next/cache";
 import prisma from '@/components/db/prisma'
+import {isTimeValid} from "@/components/sharedFunction/functions";
 
 const logToClass = async (studentId: number, classId: number) => {
     const presenceData = await prisma.studentClassPresence.update({
@@ -23,11 +24,17 @@ const logToClassNew = async (studentId: number, classId: number, classCode: stri
             id: classId
         },
         include: {
-            classes: true
+            classes: {
+                include: {
+                    classesDetail: {
+                        include: {
+                            scheduleOrder: true
+                        }
+                    }
+                }
+            }
         }
     })
-
-    console.log(classDetail?.classes.classCode)
 
     if(classCode != classDetail?.classes.classCode) {
         throw new Error(`kode ${classCode} salah`)
@@ -39,7 +46,7 @@ const logToClassNew = async (studentId: number, classId: number, classCode: stri
         },
         data: {
             logTime: new Date(),
-            status: 'ON_TIME'
+            status: isTimeValid(new Date(), classDetail?.classes.classesDetail.scheduleOrder.endTime ?? new Date()) ? 'ON_TIME' : 'LATE'
         }
     })
 
