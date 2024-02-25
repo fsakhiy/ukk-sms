@@ -11,6 +11,13 @@ export type StudentDataInClassroom = {
     createdAt: Date,
 }
 
+export type ClassDataInClassroom = {
+    id: number,
+    subject: string,
+    day: string,
+    scheduleOrder: string
+}
+
 export const columns: ColumnDef<StudentDataInClassroom>[] = [
     {
         id: "select",
@@ -53,5 +60,24 @@ export const columns: ColumnDef<StudentDataInClassroom>[] = [
     {
         accessorKey: "createdAt",
         header: "Waktu Pembuatan"
+    }
+]
+
+export const subjectColumn: ColumnDef<ClassDataInClassroom>[] = [
+    {
+        accessorKey: "id",
+        header: "Id"
+    },
+    {
+        accessorKey: "subject",
+        header: "Mata Pelajaran"
+    },
+    {
+        accessorKey: "day",
+        header: "hari"
+    },
+    {
+        accessorKey: "scheduleOrder",
+        header: "Jam Ke"
     }
 ]

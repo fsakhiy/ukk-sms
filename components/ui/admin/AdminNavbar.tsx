@@ -23,6 +23,12 @@ const studentsList: { title: string; href: string; description: string }[] = [
             "Data Semua Murid",
     },
     {
+        title: "Data Sampah Murid",
+        href: "/admin/student/trash",
+        description:
+            "Data semua murid yang telah dihapus",
+    },
+    {
         title: "Data Presensi Murid",
         href: "/admin/student/presence",
         description:

@@ -15,7 +15,11 @@ const deletionHandler = async (ids: number[]) => {
         }
     })
 
-    revalidatePath(`/admin/class/about/${params.slug}`)
+    revalidatePath(`/admin/class/about/*`)
 }
 
-export { }
+const deleteScheduleData = async (ids: number[]) => {
+    return
+}
+
+export { deleteScheduleData }
