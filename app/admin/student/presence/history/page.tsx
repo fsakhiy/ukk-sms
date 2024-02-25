@@ -6,22 +6,21 @@ import {parsePresenceStatus} from "@/components/sharedFunction/functions";
 import {DataTable} from "@/components/web-component/DataTable";
 import {dummyPresenceHander} from "@/app/admin/student/presence/action";
 
-export default async function Presence () {
+export default async function StudentPresenceHistory() {
     const studentPresence = await prisma.studentPresence.findMany({
-        where: {
-            effectiveDate: {
-                equals: new Date(new Date().setDate(23))
-            }
-        },
         include: {
             student: {
                 include: {
                     classroom: true
                 }
             }
+        },
+        orderBy: {
+            effectiveDate: 'asc'
         }
     })
     const studentPresenceTableData: studentPresenceTableType[] = []
+
     studentPresence.map((data, index) => {
         studentPresenceTableData.push({
             id: index,
@@ -35,16 +34,9 @@ export default async function Presence () {
 
     return (
         <div className={'p-10'}>
-            <h1 className={'font-bold text-3xl'}>Data Presensi Semua Murid Hari Ini</h1>
+            <h1 className={'font-bold text-3xl'}>Data Riwayat Presensi Semua Murid</h1>
 
             <div>
-                {/*<ul>*/}
-                {/*    {studentPresence.map((data) => (*/}
-                {/*        <li key={data.id}>{data.student.name} - {data.effectiveDate.toDateString()} - {data.status} - {data.logTime?.toTimeString()}</li>*/}
-                {/*    ))}*/}
-                {/*</ul>*/}
-
-
                 <DataTable columns={columns} data={studentPresenceTableData} handler={dummyPresenceHander} />
             </div>
         </div>

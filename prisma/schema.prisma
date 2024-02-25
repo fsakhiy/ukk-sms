@@ -54,7 +54,7 @@ model Subject {
 
   name String
 
-  teacher Teacher[]
+  teacher Teacher?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,7 +113,7 @@ model Teacher {
 
   isDeleted Boolean @default(false)
   Subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId Int
+  subjectId Int @unique
 }
 
 enum UserAccountType {

@@ -7,4 +7,4 @@ import prisma from '@/components/db/prisma'
 
 export { default } from "next-auth/middleware"
 
-export const config = { matcher: ["/rbac/test", "/admin/:path*", "/student/:path*"] }
+export const config = { matcher: ["/rbac/test", "/admin/:path*", "/student/:path*", "/teacher/:path*"] }

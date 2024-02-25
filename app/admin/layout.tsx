@@ -2,6 +2,7 @@
 import {getServerSession} from "next-auth";
 import LogoutButton from "@/components/web-component/LogoutButton";
 import prisma from '@/components/db/prisma'
+import AdminNavbar from "@/components/ui/admin/AdminNavbar";
 
 export default async function AdminPageLayout({
                                             children, // will be a page or nested layout
@@ -32,15 +33,19 @@ export default async function AdminPageLayout({
         <section>
             {/* Include shared UI here e.g. a header or sidebar */}
 
-            <nav className={'p-2 flex items-center w-full space-x-5'}>
-                <div>
+            {/*<nav className={'p-2 flex items-center w-full space-x-5'}>*/}
+            <nav className={'flex w-full'}>
+                {/*<div>*/}
 
-                Welcome, <span>{userSession.user.name}</span>!
+                {/*Welcome, <span>{userSession.user.name}</span>!*/}
 
-                </div>
-                <div className={'flex justify-end'}>
-                    <LogoutButton text={'log out'} />
-                </div>
+                {/*</div>*/}
+                {/*<div className={'flex justify-end'}>*/}
+                {/*    <LogoutButton text={'log out'} />*/}
+                {/*</div>*/}
+
+                {/*<AdminNavbar name={userSession?.user?.name as string} />*/}
+                <AdminNavbar />
             </nav>
 
             {children}
