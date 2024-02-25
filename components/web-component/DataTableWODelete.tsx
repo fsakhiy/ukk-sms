@@ -97,8 +97,8 @@ export function DataTableWODelete<TData, TValue>({
             </div>
             <div className={'flex'}>
                 <div className="flex-1 text-sm text-muted-foreground justify-normal items-center">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    {/*{table.getFilteredSelectedRowModel().rows.length} of{" "}*/}
+                    {/*{table.getFilteredRowModel().rows.length} row(s) selected.*/}
                 </div>
                 {/*<div className={'justify-end items-center'}>*/}
                 <div className="flex items-center justify-end space-x-2">
