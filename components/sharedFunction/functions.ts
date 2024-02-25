@@ -93,5 +93,11 @@ const parsePresenceStatus = (status: StudenDailyPresenceData["status"]): string 
     return parsedPresenceStatus
 }
 
+const isTimeValid = (givenTime: Date, limitTime: Date): boolean => {
+    const givenTotalMinutes = givenTime.getHours() * 60 + givenTime.getMinutes();
+    const limitTotalMinutes = limitTime.getHours() * 60 + limitTime.getMinutes();
 
-export { generateDatesInRange, generateRandomString, parsePresenceStatus, parseScheduleDay }
+    return givenTotalMinutes <= limitTotalMinutes;
+}
+
+export { generateDatesInRange, generateRandomString, parsePresenceStatus, parseScheduleDay, isTimeValid }
