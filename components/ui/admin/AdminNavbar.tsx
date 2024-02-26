@@ -14,6 +14,7 @@ import {
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import LogoutButton from "@/components/web-component/LogoutButton";
 
 const studentsList: { title: string; href: string; description: string }[] = [
     {
@@ -149,6 +150,15 @@ export default function AdminNavbar() {
                             ))}
                         </ul>
                     </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                    {/*<Link href="/docs" legacyBehavior passHref>*/}
+                    {/*    <NavigationMenuLink className={navigationMenuTriggerStyle()}>*/}
+                    {/*        Keluar*/}
+                    {/*    </NavigationMenuLink>*/}
+                    {/*</Link>*/}
+                    <LogoutButton text={'keluar'} />
                 </NavigationMenuItem>
 
             </NavigationMenuList>
