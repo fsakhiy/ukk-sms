@@ -9,6 +9,7 @@ import {
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Menu} from "lucide-react";
+import LogoutButton from "@/components/web-component/LogoutButton";
 
 
 
@@ -47,6 +48,7 @@ export default function StudentNavbar({name, signOutText}: studentNavbar) {
                         <Button  className={'w-full'}>
                             <Link href={'/student/schedule'}>Jadwal Pembelajaran</Link>
                         </Button>
+                        <LogoutButton text={'keluar'} />
 
                     </div>
                 </SheetContent>
