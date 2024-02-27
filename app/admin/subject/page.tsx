@@ -38,7 +38,7 @@ export default async function SubjectPage () {
         modifiedData.push({
             id: subject.id,
             name: subject.name,
-            teacher: subject.teacher.map(teacher => teacher.name),
+            teacher: subject?.teacher?.name ?? '',
             // @ts-ignore
             createdBy: auditData.find((data) => data.dataId === subject.id).user.username,
             createdAt: subject.createdAt
