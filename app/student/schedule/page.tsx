@@ -103,27 +103,30 @@ export default async function StudentSchedulePage() {
     })
 
     return (
-        <div className={'pr-5 pl-5 pt-10 pb-10 lg:pr-10 lg:pl-10 flex flex-col gap-10'}>
-            <h1 className={'font-bold text-3xl'}>Jadwal Pembelajaran - {userDataFromDB?.student?.classroom.name}</h1>
-            <div>
-                <p className={'font-bold text-xl'}>Senin</p>
-                <DataTableWODelete columns={columns} data={scheduleMonday} />
-            </div>
-            <div>
-                <p className={'font-bold text-xl'}>Selasa</p>
-                <DataTableWODelete columns={columns} data={scheduleTuesday}  />
-            </div>
-            <div>
-                <p className={'font-bold text-xl'}>Rabu</p>
-                <DataTableWODelete columns={columns} data={scheduleWednesday}  />
-            </div>
-            <div>
-                <p className={'font-bold text-xl'}>Kamis</p>
-                <DataTableWODelete columns={columns} data={scheduleThursday}  />
-            </div>
-            <div>
-                <p className={'font-bold text-xl'}>Jumat</p>
-                <DataTableWODelete columns={columns} data={scheduleFriday}  />
+        // <div className={'pr-5 pl-5 pt-10 pb-10 lg:pr-10 lg:pl-10 flex flex-col gap-10'}>
+        <div className={'pt-10 pb-10 pr-3 pl-3 lg:pr-10 lg:pl-10 flex flex-col items-center w-full'}>
+            <div className={'w-full max-w-lg flex flex-col gap-5'}>
+                <h1 className={'font-bold text-3xl'}>Jadwal Pembelajaran - {userDataFromDB?.student?.classroom.name}</h1>
+                <div>
+                    <p className={'font-bold text-xl'}>Senin</p>
+                    <DataTableWODelete columns={columns} data={scheduleMonday} />
+                </div>
+                <div>
+                    <p className={'font-bold text-xl'}>Selasa</p>
+                    <DataTableWODelete columns={columns} data={scheduleTuesday}  />
+                </div>
+                <div>
+                    <p className={'font-bold text-xl'}>Rabu</p>
+                    <DataTableWODelete columns={columns} data={scheduleWednesday}  />
+                </div>
+                <div>
+                    <p className={'font-bold text-xl'}>Kamis</p>
+                    <DataTableWODelete columns={columns} data={scheduleThursday}  />
+                </div>
+                <div>
+                    <p className={'font-bold text-xl'}>Jumat</p>
+                    <DataTableWODelete columns={columns} data={scheduleFriday}  />
+                </div>
             </div>
         </div>
     )
