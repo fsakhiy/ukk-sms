@@ -48,10 +48,17 @@ export default function TeacherNavbar({name, signOutText}: studentNavbar) {
                         {/*    <Link href={'/student/class'}>Presensi Per Pelajaran Hari Ini</Link>*/}
                         {/*</Button>*/}
                         <Link href={'/teacher/schedule'}>
-                            <Button  className={'w-full'}>
+                            <Button variant={'outline'} className={'w-full'}>
                                 Jadwal Pembelajaran
                             </Button>
                         </Link>
+
+                        <Link href={'/teacher/setting'}>
+                            <Button className={'w-full'}>
+                                Pengaturan Akun
+                            </Button>
+                        </Link>
+
                         <LogoutButton text={'Keluar'} />
 
                     </div>
