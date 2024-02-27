@@ -36,20 +36,35 @@ export default function StudentNavbar({name, signOutText}: studentNavbar) {
                         </SheetDescription>
                     </SheetHeader>
                     <div className={'w-full flex flex-col gap-3 mt-10'}>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/student'}>Presensi Hari Ini</Link>
-                        </Button>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/student/history'}>Riwayat Presensi Harian</Link>
-                        </Button>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/student/class'}>Presensi Per Pelajaran Hari Ini</Link>
-                        </Button>
-                        <Button  className={'w-full'}>
-                            <Link href={'/student/schedule'}>Jadwal Pembelajaran</Link>
-                        </Button>
-                        <LogoutButton text={'keluar'} />
+                        <Link href={'/student'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Presensi Hari Ini
+                            </Button>
+                        </Link>
+                        <Link href={'/student/history'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Riwayat Presensi Harian
+                            </Button>
+                        </Link>
 
+                        <Link href={'/student/class'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Presensi Jam KBM
+                            </Button>
+                        </Link>
+                        <Link href={'/student/schedule'}>
+                            <Button  variant={'outline'} className={'w-full'}>
+                                Jadwal Pembelajaran
+                            </Button>
+                        </Link>
+
+                        <Link href={'/student/setting'}>
+                            <Button  className={'w-full'}>
+                                Pengaturan Akun
+                            </Button>
+                        </Link>
+
+                        <LogoutButton text={'Keluar'} />
                     </div>
                 </SheetContent>
             </Sheet>
