@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
                 <div>
                     <p>Kode Kelas:</p>
-                    <p className={'font-bold text-3xl'}>{classes?.classCode}</p>
+                    <p className={'font-bold text-5xl'}>{classes?.classCode}</p>
                 </div>
                 <div className={'grid grid-cols-2 gap-2'}>
                     <InformationCounter name={'total murid'} count={classes?.StudentClassPresence.length ?? 0} />
