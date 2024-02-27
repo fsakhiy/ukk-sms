@@ -33,19 +33,26 @@ export default function TeacherNavbar({name, signOutText}: studentNavbar) {
                         </SheetDescription>
                     </SheetHeader>
                     <div className={'w-full flex flex-col gap-3 mt-10'}>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/teacher'}>Informasi KBM Hari Ini</Link>
-                        </Button>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/teacher/history'}>Riwayat Presensi Harian</Link>
-                        </Button>
+                        <Link href={'/teacher'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Informasi KBM Hari Ini
+                            </Button>
+                        </Link>
+
+                        <Link href={'/teacher/history'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Riwayat Presensi Harian
+                            </Button>
+                        </Link>
                         {/*<Button variant={'outline'} className={'w-full'}>*/}
                         {/*    <Link href={'/student/class'}>Presensi Per Pelajaran Hari Ini</Link>*/}
                         {/*</Button>*/}
-                        <Button  className={'w-full'}>
-                            <Link href={'/teacher/schedule'}>Jadwal Pembelajaran</Link>
-                        </Button>
-                        <LogoutButton text={'keluar'} />
+                        <Link href={'/teacher/schedule'}>
+                            <Button  className={'w-full'}>
+                                Jadwal Pembelajaran
+                            </Button>
+                        </Link>
+                        <LogoutButton text={'Keluar'} />
 
                     </div>
                 </SheetContent>
