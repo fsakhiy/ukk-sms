@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
+                                tidak ada hasil.
                             </TableCell>
                         </TableRow>
                     )}
@@ -115,8 +115,8 @@ export function DataTable<TData, TValue>({
         </div>
         <div className={'flex'}>
             <div className="flex-1 text-sm text-muted-foreground justify-normal items-center">
-                {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                {table.getFilteredRowModel().rows.length} row(s) selected.
+                {table.getFilteredSelectedRowModel().rows.length} dari{" "}
+                {table.getFilteredRowModel().rows.length} baris terpilih.
             </div>
             {/*<div className={'justify-end items-center'}>*/}
             <div className="flex items-center justify-end space-x-2">
@@ -126,7 +126,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    Sebelumnya
                 </Button>
                 <Button
                     variant="outline"
@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    Selanjutnya
                 </Button>
                 {table.getFilteredSelectedRowModel().rows.length != 0 ?
                     <Button
@@ -144,7 +144,7 @@ export function DataTable<TData, TValue>({
                     >
 
                         <Trash2 className={'mr-2 h-4 w-4'} />
-                        delete
+                        Hapus
                     </Button>
                     :
                     <Button
@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
                         onClick={handleDataDeletion}
                     >
                         <Trash2 className={'mr-2 h-4 w-4'} />
-                        delete
+                        Hapus
                     </Button>
                 }
             </div>

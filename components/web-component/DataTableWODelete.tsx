@@ -88,7 +88,7 @@ export function DataTableWODelete<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    tidak ada data.
                                 </TableCell>
                             </TableRow>
                         )}
@@ -108,7 +108,7 @@ export function DataTableWODelete<TData, TValue>({
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        Sebelumnya
                     </Button>
                     <Button
                         variant="outline"
@@ -116,7 +116,7 @@ export function DataTableWODelete<TData, TValue>({
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        Selanjutnya
                     </Button>
                 </div>
                 {/*</div>*/}
