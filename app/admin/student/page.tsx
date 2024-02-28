@@ -56,11 +56,8 @@ export default async function StudentPage() {
             name: student.name,
             classroom: student.classroom.name,
             username: studentUser.find((data) => data.studentId === student.id)?.username ?? 'user tidak ditemukan',
-            // @ts-ignore
-            createdBy: auditData.find((data) => data.dataId === student.id).user.username,
-            // @ts-ignore
-            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt
-            // createdAt: student.createdAt
+            createdBy: auditData.find((data) => data.dataId === student.id)?.user.username ?? 'user tidak ditemukan',
+            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt ?? new Date('1/1/1970')
         })
     })
 
