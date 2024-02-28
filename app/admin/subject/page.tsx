@@ -5,6 +5,7 @@ import CreateSubjectForm from "@/app/admin/subject/creationForm";
 import prisma from '@/components/db/prisma'
 import {columns, SubjectDataType} from "@/app/admin/subject/columns";
 import {deleteSubjectData} from "@/app/admin/subject/action";
+import {DataTableWSearch} from "@/components/web-component/DataTableWSearch";
 
 
 export default async function SubjectPage () {
@@ -61,7 +62,7 @@ export default async function SubjectPage () {
             <div className={'w-full'}>
                 <div className={'w-full'}>
                     {/*<DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData}/>*/}
-                    <DataTable columns={columns} data={modifiedData} handler={deleteSubjectData} />
+                    <DataTableWSearch columns={columns} data={modifiedData} handler={deleteSubjectData} searchKey={'name'} searchPlaceholder={'Cari pelajaran...'} />
                 </div>
             </div>
 
