@@ -2,12 +2,10 @@
 
 import CreateStudentForm, {ClassroomDataType} from "@/app/admin/student/CreationForm";
 import prisma from '@/components/db/prisma'
-import CreateScheduleForm from "@/app/admin/schedule/CreationForm";
-import {DataTable} from "@/components/web-component/DataTable";
 import {columns} from "@/app/admin/student/columns";
-import {deleteSchedule} from "@/app/admin/schedule/action";
 import {StudentDataTableType} from "@/app/admin/student/columns";
 import {deleteStudentData} from "@/app/admin/student/action";
+import {DataTableWSearch} from "@/components/web-component/DataTableWSearch";
 
 export default async function StudentPage() {
 
@@ -80,7 +78,13 @@ export default async function StudentPage() {
 
             <div className={'w-full'}>
                 <div className={'w-full'}>
-                    <DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData}/>
+                    <DataTableWSearch
+                        columns={columns}
+                        data={modifiedStudentData}
+                        handler={deleteStudentData}
+                        searchKey={'name'}
+                        searchPlaceholder={'Cari nama siswa...'}
+                    />
                 </div>
             </div>
 
