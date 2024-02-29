@@ -18,7 +18,6 @@ export default async function StudentSettings() {
             <div className={'max-w-lg w-full flex flex-col gap-5'}>
                 <div className={'flex flex-col'}>
                     <h1 className={'font-bold text-3xl'}>Pengaturan Akun</h1>
-                    {/*<p className={'font-bold text-xl'}>{mainSchedule?.classroom.name}</p>*/}
                 </div>
 
                 <div className={'flex flex-col gap-3'}>
