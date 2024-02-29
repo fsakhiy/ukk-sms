@@ -265,3 +265,10 @@ model ScheduleOrderMasterOption {
 
   ClassesDetail ClassesDetail[]
 }
+
+model LatePresenceMasterOption {
+  id Int @unique @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  lateTime DateTime @db.Time()
+}
