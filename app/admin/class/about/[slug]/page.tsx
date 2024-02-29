@@ -10,9 +10,8 @@ import {
     subjectColumn
 } from "@/app/admin/class/about/[slug]/columns";
 import {DataTable} from "@/components/web-component/DataTable";
-import {revalidatePath} from "next/cache";
 import {deleteStudentData} from "@/app/admin/student/action";
-import {deleteScheduleData} from "@/app/admin/class/about/[slug]/action";
+import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
 
 export default async function AboutClassroom({ params }: { params: { slug: string } }) {
     const classroomData = await prisma.classroom.findUnique({
@@ -96,9 +95,9 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
         })
 
         const scheduleDataForTable: ClassDataInClassroom[] = []
-        classDetailData.map((data) => {
+        classDetailData.map((data, index) => {
             scheduleDataForTable.push({
-                id: data.id,
+                id: index,
                 subject: data.subject.name,
                 day: data.scheduleOrder.day,
                 scheduleOrder: data.scheduleOrder.name
@@ -126,7 +125,7 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
                     <h2 className={'font-semibold text-xl'}>Data jadwal kelas:</h2>
                     <div>
 
-                        <DataTable columns={subjectColumn} data={scheduleDataForTable} handler={deleteScheduleData} />
+                        <DataTableWODelete columns={subjectColumn} data={scheduleDataForTable} />
 
                         {/*<ul>*/}
                         {/*    {classDetailData.map((data) => (*/}

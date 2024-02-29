@@ -36,7 +36,7 @@ async function createNewTeacher(values: z.infer<typeof teacherFormSchema>) {
         }
     })
 
-    const uniqueUsername = (values.name.split(" ")[0]) + (Math.random() * 90 + 10).toFixed().toString().padStart(2, '0')
+    const uniqueUsername = (values.name.split(" ")[0].toLowerCase()) + (Math.random() * 90 + 10).toFixed().toString().padStart(2, '0')
     const defaultPassword = await bcrypt.hash("12345", 12)
 
     const userForTeacher = await prisma.user.create({

@@ -1,10 +1,10 @@
 "use server"
 
-import {DataTable} from "@/components/web-component/DataTable";
 import prisma from '@/components/db/prisma'
 import CreateTeacherForm, {SubjectDataType} from "@/app/admin/teacher/creationForm";
 import {columns, TeacherDataType} from "@/app/admin/teacher/columns";
 import {deleteTeacherData} from "@/app/admin/teacher/action";
+import {DataTableWSearch} from "@/components/web-component/DataTableWSearch";
 
 
 export default async function SubjectPage () {
@@ -75,7 +75,13 @@ export default async function SubjectPage () {
             <div className={'w-full'}>
                 <div className={'w-full'}>
                     {/*<DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData}/>*/}
-                    <DataTable columns={columns} data={modifiedTeacherData} handler={deleteTeacherData} />
+                    <DataTableWSearch
+                        columns={columns}
+                        data={modifiedTeacherData}
+                        handler={deleteTeacherData}
+                        searchPlaceholder={'Cari nama guru...'}
+                        searchKey={'name'}
+                    />
                 </div>
             </div>
 

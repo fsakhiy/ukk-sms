@@ -9,6 +9,7 @@ import {
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Menu} from "lucide-react";
+import LogoutButton from "@/components/web-component/LogoutButton";
 
 interface studentNavbar {
     name: string,
@@ -32,18 +33,33 @@ export default function TeacherNavbar({name, signOutText}: studentNavbar) {
                         </SheetDescription>
                     </SheetHeader>
                     <div className={'w-full flex flex-col gap-3 mt-10'}>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/teacher'}>Informasi KBM Hari Ini</Link>
-                        </Button>
-                        <Button variant={'outline'} className={'w-full'}>
-                            <Link href={'/teacher/history'}>Riwayat Presensi Harian</Link>
-                        </Button>
+                        <Link href={'/teacher'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Informasi KBM Hari Ini
+                            </Button>
+                        </Link>
+
+                        <Link href={'/teacher/history'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Riwayat Presensi Harian
+                            </Button>
+                        </Link>
                         {/*<Button variant={'outline'} className={'w-full'}>*/}
                         {/*    <Link href={'/student/class'}>Presensi Per Pelajaran Hari Ini</Link>*/}
                         {/*</Button>*/}
-                        <Button  className={'w-full'}>
-                            <Link href={'/teacher/schedule'}>Jadwal Pembelajaran</Link>
-                        </Button>
+                        <Link href={'/teacher/schedule'}>
+                            <Button variant={'outline'} className={'w-full'}>
+                                Jadwal Pembelajaran
+                            </Button>
+                        </Link>
+
+                        <Link href={'/teacher/setting'}>
+                            <Button className={'w-full'}>
+                                Pengaturan Akun
+                            </Button>
+                        </Link>
+
+                        <LogoutButton text={'Keluar'} />
 
                     </div>
                 </SheetContent>

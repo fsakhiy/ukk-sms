@@ -32,7 +32,7 @@ export default function StudentDailyPresence({studentId, name, status, presenceT
                         }}
                     >Presensi Dulu Yuk</Button>
                 </div>
-                : <div>Kamu Sudah Absen - {parsePresenceStatus(status) === 'Terlambat' ? <p>Terlambat</p> : <p>{parsePresenceStatus(status)}</p>} <br/> {presenceTime?.toString()} </div>
+                : <div>Kamu Sudah Absen - {parsePresenceStatus(status) === 'Terlambat' ? <span>Terlambat</span> : <span>{parsePresenceStatus(status)}</span>} <br/> {presenceTime?.toString()} </div>
             }
 
             <Button className={'w-full'} variant={'outline'} ><Link href={'/student/history'}>riwayat presensi</Link></Button>

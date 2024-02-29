@@ -2,12 +2,10 @@
 
 import CreateStudentForm, {ClassroomDataType} from "@/app/admin/student/CreationForm";
 import prisma from '@/components/db/prisma'
-import CreateScheduleForm from "@/app/admin/schedule/CreationForm";
-import {DataTable} from "@/components/web-component/DataTable";
 import {columns} from "@/app/admin/student/columns";
-import {deleteSchedule} from "@/app/admin/schedule/action";
 import {StudentDataTableType} from "@/app/admin/student/columns";
 import {deleteStudentData} from "@/app/admin/student/action";
+import {DataTableWSearch} from "@/components/web-component/DataTableWSearch";
 
 export default async function StudentPage() {
 
@@ -58,11 +56,8 @@ export default async function StudentPage() {
             name: student.name,
             classroom: student.classroom.name,
             username: studentUser.find((data) => data.studentId === student.id)?.username ?? 'user tidak ditemukan',
-            // @ts-ignore
-            createdBy: auditData.find((data) => data.dataId === student.id).user.username,
-            // @ts-ignore
-            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt
-            // createdAt: student.createdAt
+            createdBy: auditData.find((data) => data.dataId === student.id)?.user.username ?? 'user tidak ditemukan',
+            createdAt: auditData.find((data) => data.dataId === student.id)?.createdAt ?? new Date('1/1/1970')
         })
     })
 
@@ -80,7 +75,13 @@ export default async function StudentPage() {
 
             <div className={'w-full'}>
                 <div className={'w-full'}>
-                    <DataTable columns={columns} data={modifiedStudentData} handler={deleteStudentData}/>
+                    <DataTableWSearch
+                        columns={columns}
+                        data={modifiedStudentData}
+                        handler={deleteStudentData}
+                        searchKey={'name'}
+                        searchPlaceholder={'Cari nama siswa...'}
+                    />
                 </div>
             </div>
 

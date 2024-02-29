@@ -6,6 +6,8 @@ import {
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
+    ColumnFiltersState,
+    getFilteredRowModel,
 } from "@tanstack/react-table"
 
 import {
@@ -15,13 +17,26 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+
 } from "@/components/ui/table"
 import React from "react";
 import {Button} from "@/components/ui/button";
-import {boolean} from "zod";
 import {Toaster} from "@/components/ui/toaster";
-import {toast} from "@/components/ui/use-toast";
-import {Trash2} from "lucide-react";
+
+import { Input } from "@/components/ui/input"
+
+// import * as React from "react"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 
 
 interface DataTableProps<TData, TValue> {
@@ -29,11 +44,17 @@ interface DataTableProps<TData, TValue> {
     data: TData[],
 }
 
-export function DataTableWODelete<TData, TValue>({
+export function DataTableWODeleteWDate<TData, TValue>({
                                              columns,
                                              data,
                                          }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
+
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+        []
+    )
+
+    const [date, setDate] = React.useState<Date>()
 
     const table = useReactTable({
         data,
@@ -41,8 +62,13 @@ export function DataTableWODelete<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         onRowSelectionChange: setRowSelection,
         getPaginationRowModel: getPaginationRowModel(),
+
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+
         state: {
-            rowSelection
+            rowSelection,
+            columnFilters
         }
     })
 
@@ -50,7 +76,63 @@ export function DataTableWODelete<TData, TValue>({
 
     return (
         <div className={'space-y-5'}>
-            <Toaster />
+            <Toaster/>
+
+
+            <div className={'flex flex-row gap-5 items-center'}>
+                <div className="flex items-center py-4">
+                    <Input
+                        placeholder="Cari murid"
+                        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                        onChange={(event) =>
+                            table.getColumn("name")?.setFilterValue(event.target.value)
+                        }
+                        className="max-w-sm"
+                    />
+                </div>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-[280px] justify-start text-left font-normal",
+                                !date && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date ? format(date, "PPP") : <span>Pilih tanggal</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={setDate}
+                            initialFocus
+                        />
+                    </PopoverContent>
+                </Popover>
+                <Button
+                    onClick={
+                        (event) =>
+                            table.getColumn("effectiveDate")?.setFilterValue(date?.toLocaleDateString())
+
+                    }
+                >
+                    Cari Data
+                </Button>
+                <Button
+                    onClick={
+                        (event) =>
+                            table.getColumn("effectiveDate")?.setFilterValue('')
+                    }
+                >
+                    hilangkan filter
+                </Button>
+            </div>
+
+
+
             <div className="rounded-md border ">
                 <Table>
                     <TableHeader>
@@ -98,7 +180,7 @@ export function DataTableWODelete<TData, TValue>({
             <div className={'flex'}>
                 <div className="flex-1 text-sm text-muted-foreground justify-normal items-center">
                     {/*{table.getFilteredSelectedRowModel().rows.length} of{" "}*/}
-                    {table.getFilteredRowModel().rows.length} baris.
+                    {table.getFilteredRowModel().rows.length} row(s).
                 </div>
                 {/*<div className={'justify-end items-center'}>*/}
                 <div className="flex items-center justify-end space-x-2">

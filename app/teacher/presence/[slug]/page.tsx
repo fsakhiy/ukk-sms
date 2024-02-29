@@ -5,8 +5,7 @@ import ClassInformation from "@/components/ui/teacher/ClassInformation";
 import InformationCounter from "@/components/ui/teacher/Counter";
 import {columns, StudentPresenceForTeacher} from "@/app/teacher/presence/[slug]/columns";
 import {parsePresenceStatus} from "@/components/sharedFunction/functions";
-import {DataTable} from "@/components/web-component/DataTable";
-import {dummyPresenceHandler} from "@/app/teacher/presence/[slug]/action";
+import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
 
 export default async function Page({ params }: { params: { slug: string } }) {
     const classes = await prisma.classes.findUnique({
@@ -52,7 +51,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
                 <div>
                     <p>Kode Kelas:</p>
-                    <p className={'font-bold text-3xl'}>{classes?.classCode}</p>
+                    <p className={'font-bold text-5xl'}>{classes?.classCode}</p>
                 </div>
                 <div className={'grid grid-cols-2 gap-2'}>
                     <InformationCounter name={'total murid'} count={classes?.StudentClassPresence.length ?? 0} />
@@ -63,7 +62,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
                 <div className={'flex flex-col'}>
                     <p className={'font-bold text-xl'}>Data Presensi Murid</p>
-                    <DataTable columns={columns} data={studentPresence} handler={dummyPresenceHandler} />
+                    <DataTableWODelete columns={columns} data={studentPresence} />
                 </div>
             </div>
 

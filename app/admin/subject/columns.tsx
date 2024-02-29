@@ -6,7 +6,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 export type SubjectDataType = {
     id: number,
     name: string,
-    teacher: string[],
+    teacher: string,
     createdBy: string,
     createdAt: Date,
 }

@@ -27,6 +27,11 @@ export default async function TeacherHomePage() {
                     teacher: {
                         id: userData?.teacher?.id
                     }
+                },
+                mainSchedule: {
+                    classroom: {
+                        isDeleted: false
+                    }
                 }
             },
             effectiveDate: new Date()
@@ -62,7 +67,7 @@ export default async function TeacherHomePage() {
                 {classesDetail.length === 0 ?
                     <p>tidak ada kbm hari ini</p> :
 
-                    <div className={'flex flex-col'}>
+                    <div className={'flex flex-col gap-3'}>
                         <p className={'font-bold text-xl'}>Jadwal KBM Hari Ini</p>
                         {classesDetail.map((detail) => (
                             <ClassInformation key={detail.id} id={detail.id} subject={detail.classesDetail.subject.name} classroom={detail.classesDetail.mainSchedule.classroom.name} startTime={detail.classesDetail.scheduleOrder.startTime} endTime={detail.classesDetail.scheduleOrder.endTime} classCode={detail.classCode} />

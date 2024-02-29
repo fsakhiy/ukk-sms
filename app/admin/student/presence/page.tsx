@@ -3,7 +3,7 @@
 import prisma from "@/components/db/prisma"
 import {columns, studentPresenceTableType} from "@/app/admin/student/presence/columns";
 import {parsePresenceStatus} from "@/components/sharedFunction/functions";
-import {DataTableWODelete} from "@/components/web-component/DataTableWODelete";
+import {DataTableWODeleteWSearch} from "@/components/web-component/DataTableWODeleteWSearch";
 
 export default async function Presence () {
     const studentPresence = await prisma.studentPresence.findMany({
@@ -37,7 +37,7 @@ export default async function Presence () {
             <h1 className={'font-bold text-3xl'}>Data Presensi Semua Murid Hari Ini</h1>
 
             <div>
-                <DataTableWODelete columns={columns} data={studentPresenceTableData} />
+                <DataTableWODeleteWSearch columns={columns} data={studentPresenceTableData} searchPlaceholder={'Cari siswa...'} searchKey={'name'} />
             </div>
         </div>
     )
