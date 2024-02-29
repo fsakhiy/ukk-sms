@@ -5,4 +5,5 @@ import {Button} from "@/components/ui/button";
 interface ButtonText {
     text: string
 }
-export default ({text}: ButtonText) => <Button onClick={() => signOut()} variant={'destructive'} >{text}</Button>
+const LogoutButton = ({text}: ButtonText) => <Button onClick={() => signOut()} variant={'destructive'} >{text}</Button>
+export default LogoutButton
