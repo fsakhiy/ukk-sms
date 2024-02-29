@@ -72,8 +72,7 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
                 id: student.id,
                 name: student.name,
                 username: studentUser.find((user) => user.studentId === student.id)?.username ?? 'pengguna tidak ditemukan',
-                // @ts-ignore
-                createdBy: auditData.find((audit) => audit.dataId === student.id).user.username,
+                createdBy: auditData.find((audit) => audit.dataId === student.id)?.user.username ?? '',
                 createdAt: student.createdAt
             })
         })
@@ -126,12 +125,6 @@ export default async function AboutClassroom({ params }: { params: { slug: strin
                     <div>
 
                         <DataTableWODelete columns={subjectColumn} data={scheduleDataForTable} />
-
-                        {/*<ul>*/}
-                        {/*    {classDetailData.map((data) => (*/}
-                        {/*        <li key={data.id}>{data.subject.name} - {data.scheduleOrder.day} - {data.scheduleOrder.name}</li>*/}
-                        {/*    ))}*/}
-                        {/*</ul>*/}
                     </div>
 
                     <div className={'flex flex-col'}>

@@ -93,11 +93,17 @@ const settingList: { title: string; href: string; description: string }[] = [
         description:
             "pengaturan kapan presensi murid dihitung terlambat",
     },
+    {
+        title: "Halaman SuperAdmin",
+        href: "/admin/superadmin",
+        description:
+            "Halaman SuperAdmin"
+    }
 ]
 
 export default function AdminNavbar() {
     return (
-        <NavigationMenu className={'flex flex-row items-center gap-5 p-3'}>
+        <NavigationMenu className={'flex flex-row items-center gap-5 p-2'}>
 
             <NavigationMenuList>
 
