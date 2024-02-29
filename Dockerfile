@@ -1,43 +1,3 @@
-## Adapted from https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
-## Install dependencies only when needed
-#FROM node:lts AS deps
-## Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-#RUN apk add --no-cache libc6-compat
-#WORKDIR /app
-#COPY package.json package-lock.json ./
-#RUN npm ci
-#
-## Rebuild the source code only when needed
-#FROM node:lts AS builder
-#WORKDIR /app
-#COPY --from=deps /app/node_modules ./node_modules
-#COPY . .
-#ENV NEXT_TELEMETRY_DISABLED 1
-#RUN npx prisma generate                   # <---important to support Prisma query engine in Alpine Linux in final image
-#RUN npm run build
-#
-## Production image, copy all the files and run next
-#FROM node:lts AS runner
-#WORKDIR /app
-#ENV NODE_ENV production
-#ENV NEXT_TELEMETRY_DISABLED 1
-#RUN addgroup --system --gid 1001 nodejs
-#RUN adduser --system --uid 1001 nextjs
-## You only need to copy next.config.js if you are NOT using the default configuration
-## COPY --from=builder /app/next.config.js ./
-#COPY --from=builder /app/public ./public
-#COPY --from=builder /app/package.json ./package.json
-## Automatically leverage output traces to reduce image size
-## https://nextjs.org/docs/advanced-features/output-file-tracing
-#COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-#COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-#COPY --chown=nextjs:nodejs prisma ./prisma/
-#COPY --chown=nextjs:nodejs docker-bootstrap-app.sh ./
-#USER nextjs
-#EXPOSE 3000
-#ENV PORT 3000
-#CMD ["./docker-bootstrap-app.sh"]
-
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -53,10 +13,7 @@ RUN \
   elif [ -f package-lock.json ]; then npm ci; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
-    fi
-
-#RUN npx prisma generate                   # <---important to support Prisma query engine in Alpine Linux in final image
-#RUN npm run build
+  fi
 
 
 # Rebuild the source code only when needed
@@ -70,14 +27,16 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+RUN npx prisma generate
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
-    fi
+  fi
 
-RUN npx prisma generate
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
@@ -90,6 +49,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -107,6 +67,8 @@ EXPOSE 3000
 ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
+
+RUN npx prisma db push
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
