@@ -140,6 +140,7 @@ model User {
   accountType UserAccountType
   isAdmin     Boolean?        @default(false)
   AuditLog    AuditLog[]
+  isSuperAdmin Boolean @default(false)
 }
 
 model StudentSchedule {
