@@ -35,7 +35,7 @@ const studentsList: { title: string; href: string; description: string }[] = [
         description:
             "data presensi semua murid hari ini (per hari)",
     },
-{
+    {
         title: "Riwayat Presensi Murid",
         href: "/admin/student/presence/history",
         description:
@@ -67,12 +67,6 @@ const subjectAndScheduleList: { title: string; href: string; description: string
             "data jadwal pembelajaran untuk semua kelas",
     },
     {
-        title: "Pengaturan Jam Pembelajaran",
-        href: "/admin/schedule/option/schedule-order",
-        description:
-            "pengaturan banyaknya dan durasi jam pembeljaran setiap harinya",
-    },
-    {
         title: "Data Pelajaran",
         href: "/admin/subject",
         description:
@@ -84,6 +78,21 @@ const subjectAndScheduleList: { title: string; href: string; description: string
         description:
             "data semua guru pengampu",
     }
+]
+
+const settingList: { title: string; href: string; description: string }[] = [
+    {
+        title: "Pengaturan Jam Pembelajaran",
+        href: "/admin/schedule/option/schedule-order",
+        description:
+            "pengaturan banyaknya dan durasi jam pembeljaran setiap harinya",
+    },
+    {
+        title: "Pengaturan Jam Terlambat",
+        href: "/admin/student/presence/option",
+        description:
+            "pengaturan kapan presensi murid dihitung terlambat",
+    },
 ]
 
 export default function AdminNavbar() {
@@ -140,6 +149,23 @@ export default function AdminNavbar() {
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                             {subjectAndScheduleList.map((component) => (
+                                <ListItem
+                                    key={component.title}
+                                    title={component.title}
+                                    href={component.href}
+                                >
+                                    {component.description}
+                                </ListItem>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>Pengaturan</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            {settingList.map((component) => (
                                 <ListItem
                                     key={component.title}
                                     title={component.title}
